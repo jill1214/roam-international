@@ -19,7 +19,7 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_PH",
     siteName: site.name,
-    images: [{ url: "/og-image.jpg", width: 1200, height: 630, alt: "ROAM travelers in Busan, South Korea" }],
+    images: [{ url: "/og-image.jpg", width: 1200, height: 630, alt: "ROAM International Travel and Tours, Your Gateway to ROAM the World" }],
   },
   twitter: { card: "summary_large_image" },
   alternates: { canonical: "/" },
