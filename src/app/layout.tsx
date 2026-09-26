@@ -35,7 +35,7 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en-PH">
-      <body className="flex min-h-dvh flex-col">
+      <body id="top" className="flex min-h-dvh flex-col">
         <JsonLd data={agencyJsonLd()} />
         <Header />
         <main id="main" className="flex-1">{children}</main>

@@ -4,7 +4,7 @@ import { cx } from "./ui";
 
 export function Logo({ className, priority }: { className?: string; priority?: boolean }) {
   return (
-    <Link href="/" className={cx("inline-flex shrink-0 items-center", className)} aria-label="ROAM International Travel and Tours, home">
+    <Link href="/#top" className={cx("inline-flex shrink-0 items-center", className)} aria-label="ROAM International Travel and Tours, home">
       <Image
         src="/images/brand/logo-horizontal.png"
         alt="ROAM International Travel and Tours"
