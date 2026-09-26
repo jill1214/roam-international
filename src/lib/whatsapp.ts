@@ -11,17 +11,30 @@ export type InquiryDetails = {
   children?: string;
   departureCity?: string;
   message?: string;
+  tourSpecific?: boolean;
 };
 
 export function waLink(text?: string): string {
-  const base = `https://wa.me/${site.whatsapp.waNumber}`;
-  return text ? `${base}?text=${encodeURIComponent(text)}` : base;
+  const base = "https://api.whatsapp.com/send?phone=639175581494";
+  if (!text) return base;
+  const encodedMessage = encodeURIComponent(text);
+  return `${base}&text=${encodedMessage}`;
 }
 
 export function quickInquiryText(tourName?: string): string {
   return tourName
-    ? `Hi ${site.name},\n\nI'd like to inquire about ${tourName}. Please send me more information about this tour.`
-    : `Hi ${site.name},\n\nI'd like to ask about planning a trip.`;
+    ? `Hi ${site.name},
+
+I'd like to inquire about the ${tourName} tour.
+
+Additional Questions:
+Please send me more information about this tour.`
+    : `Hi ${site.name},
+
+I'd like to inquire about a trip.
+
+Message:
+I'd like to ask about planning a trip.`;
 }
 
 function formatDate(value?: string): string {
@@ -33,22 +46,34 @@ function formatDate(value?: string): string {
 }
 
 export function buildInquiryMessage(d: InquiryDetails): string {
-  const isGeneral = !d.tour || d.tour === "Not sure yet";
-  const lines = [
-    `Hi ${site.name},`,
-    "",
-    isGeneral ? "I'd like to inquire about a trip." : `I'd like to inquire about ${d.tour}.`,
-    "",
-    `Name: ${d.name}`,
-    `Preferred travel date: ${formatDate(d.travelDate) || "Flexible"}`,
-    `Number of travelers: ${d.travelers || "-"}`,
-    `Adults: ${d.adults || "-"}`,
-    `Children: ${d.children || "0"}`,
-    `Departure city: ${d.departureCity || "-"}`,
-    `Mobile number: ${d.mobile}`,
-  ];
-  if (d.email) lines.push(`Email: ${d.email}`);
-  lines.push(`Message: ${d.message?.trim() || "-"}`, "");
-  lines.push(isGeneral ? "Please send me more information." : "Please send me more information about this tour.");
-  return lines.join("\n");
+  const travelDate = formatDate(d.travelDate) || "Flexible";
+  const travelers = d.travelers || "-";
+  const departureCity = d.departureCity || "-";
+  const message = d.message?.trim() || "-";
+
+  if (d.tourSpecific) {
+    return `Hi ${site.name},
+
+I'd like to inquire about the ${d.tour} tour.
+
+Name: ${d.name}
+Preferred Travel Date: ${travelDate}
+Number of Travelers: ${travelers}
+Departure City: ${departureCity}
+
+Additional Questions:
+${message}`;
+  }
+
+  return `Hi ${site.name},
+
+I'd like to inquire about a trip.
+
+Name: ${d.name}
+Destination: ${d.tour || "-"}
+Preferred Travel Date: ${travelDate}
+Number of Travelers: ${travelers}
+
+Message:
+${message}`;
 }

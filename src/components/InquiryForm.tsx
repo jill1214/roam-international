@@ -61,10 +61,11 @@ export function InquiryForm({ tourNames, defaultTour, heading, className }: Prop
       children: children || "0",
       departureCity: get("departureCity"),
       message: get("message"),
+      tourSpecific: tourNames.includes(tourLabel),
     });
     const link = waLink(message);
-    const win = window.open(link, "_blank", "noopener,noreferrer");
-    if (!win) window.location.href = link;
+    const win = window.open(link, "_blank");
+    if (win) win.opener = null;
     setSentLink(link);
   }
 

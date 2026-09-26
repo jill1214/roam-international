@@ -36,7 +36,12 @@ export default function ServicesPage() {
         <Container className="space-y-6">
           {services.map((s) => {
             const Icon = icons[s.slug as keyof typeof icons];
-            const msg = `Hi ${site.name},\n\nI'd like to ask about ${s.title.toLowerCase()}.`;
+            const msg = `Hi ${site.name},
+
+I'd like to inquire about a trip.
+
+Message:
+I'd like to ask about ${s.title.toLowerCase()}.`;
             return (
               <article key={s.slug} id={s.slug} aria-labelledby={`${s.slug}-title`} className="scroll-mt-24 grid gap-8 rounded-[var(--radius-card)] border border-line p-6 sm:p-10 lg:grid-cols-[1fr_1.35fr] lg:gap-14">
                 <div>
