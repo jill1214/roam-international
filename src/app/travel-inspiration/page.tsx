@@ -46,7 +46,13 @@ export default function InspirationPage() {
                 <article className="flex h-full flex-col overflow-hidden rounded-[var(--radius-card)] border border-line bg-white">
                   <div className={cx("relative aspect-[4/3] overflow-hidden", !e.image && "bg-brand-50")}>
                     {e.image ? (
-                      <Image src={e.image.src} alt={e.image.alt} fill sizes="(min-width:1024px) 20rem, (min-width:640px) 50vw, 100vw" className="object-cover" />
+                      <Image
+                        src={e.image.src}
+                        alt={e.image.alt}
+                        fill
+                        sizes="(min-width:1024px) 20rem, (min-width:640px) 50vw, 100vw"
+                        className="h-full w-full object-cover"
+                      />
                     ) : (
                       // Placeholder until ROAM's own photo is added (see src/data/inspiration.ts)
                       <RingMotif className="absolute left-1/2 top-1/2 size-40 -translate-x-1/2 -translate-y-1/2 text-brand-200" />

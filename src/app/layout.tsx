@@ -34,7 +34,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en-PH">
+    <html lang="en-PH" data-scroll-behavior="smooth">
       <body id="top" className="flex min-h-dvh flex-col">
         <JsonLd data={agencyJsonLd()} />
         <Header />

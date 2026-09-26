@@ -5,6 +5,7 @@ import { tours } from "@/data/tours";
 import { services } from "@/data/services";
 import { waLink, quickInquiryText } from "@/lib/whatsapp";
 import { TourCard } from "@/components/TourCard";
+import { BadgeCheck, Plane } from "lucide-react";
 import {
   ButtonLink,
   Container,
@@ -51,7 +52,7 @@ export default function HomePage() {
     {
       Icon: PeopleIcon,
       title: "Personal Travel Assistance",
-      body: "Real people guide you before your trip and throughout your preparation. Message, call or visit us.",
+      body: "Real people guide you before your trip and throughout your preparation, helping you feel ready at every step.",
     },
     {
       Icon: RouteIcon,
@@ -73,11 +74,25 @@ export default function HomePage() {
         />
         <Container className="relative grid items-center gap-12 pb-16 pt-10 sm:pt-16 lg:grid-cols-[1.05fr_1fr] lg:gap-8 lg:pb-24 lg:pt-20">
           <div className="max-w-xl">
+            <p className="mb-5 inline-flex max-w-full items-center justify-center gap-x-1 rounded-md bg-brand-500 px-2.5 py-1.5 text-[0.625rem] font-semibold leading-none tracking-[-0.03em] text-white whitespace-nowrap sm:px-3 sm:text-[0.875rem] sm:tracking-normal">
+              <span className="inline-flex items-center gap-1.5 whitespace-nowrap">
+                <BadgeCheck className="h-3.5 w-3.5 shrink-0 sm:h-5 sm:w-5" />
+                DOT Accredited Travel Agency
+              </span>
+
+              <span aria-hidden="true"></span>
+
+              <span className="inline-flex items-center gap-1.5 whitespace-nowrap">
+                <Plane className="h-3.5 w-3.5 shrink-0 sm:h-5 sm:w-5" />
+                Serving Travelers since {site.established.year}
+              </span>
+            </p>
             <h1
               id="hero-heading"
               className="text-[clamp(2.75rem,7vw,4.75rem)] font-extrabold leading-[1.02] tracking-[-0.035em]"
             >
-              Your Gateway to ROAM the World
+              Your Gateway to <span className="text-brand-500">ROAM</span> the
+              World
             </h1>
             <p className="mt-6 text-lg text-body sm:text-xl">
               Thoughtfully planned journeys, trusted travel assistance, and
@@ -95,10 +110,6 @@ export default function HomePage() {
                 <WhatsAppIcon /> Inquire on WhatsApp
               </ExternalButton>
             </div>
-            <p className="mt-7 flex items-center gap-2.5 text-[0.9375rem] font-medium text-muted">
-              <ShieldIcon width={20} height={20} className="text-brand-600" />
-              Serving travelers since {site.established.year} • DOT Accredited
-            </p>
           </div>
 
           <div className="relative mx-auto w-full max-w-[34rem]">
@@ -244,11 +255,11 @@ export default function HomePage() {
             <figure className="col-span-6 sm:col-span-2 sm:mt-24">
               <div className="relative aspect-[4/3] overflow-hidden rounded-[var(--radius-card)] sm:aspect-[3/4]">
                 <Image
-                  src="/images/stories/busan-haeundae-group.jpg"
-                  alt="ROAM travelers on a Busan beach with high-rise towers behind them"
+                  src="/images/stories/busan-haeundae-group.png"
+                  alt="ROAM travelers on Haeundae Beach in Busan with the sea and high-rise towers behind them"
                   fill
                   sizes="(min-width:1024px) 18rem, 100vw"
-                  className="object-cover object-[30%_center]"
+                  className="h-full w-full object-cover"
                 />
               </div>
               <figcaption className="mt-2 text-sm text-muted">

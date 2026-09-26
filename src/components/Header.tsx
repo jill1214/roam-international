@@ -13,6 +13,11 @@ function isActive(pathname: string, href: string) {
   return href === "/" ? pathname === "/" : pathname === href || pathname.startsWith(`${href}/`);
 }
 
+function scrollToTop() {
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  window.scrollTo({ top: 0, behavior: reduce ? "auto" : "smooth" });
+}
+
 export function Header() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
@@ -35,6 +40,17 @@ export function Header() {
     };
   }, [open]);
 
+  // Clicking "Home" on the homepage is a no-op for the router, so scroll to the
+  // top (the hero) ourselves and drop any stale hash left in the URL.
+  const onNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    setOpen(false);
+    if (href !== "/" || pathname !== "/") return;
+    if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
+    e.preventDefault();
+    if (window.location.hash) window.history.replaceState(null, "", "/");
+    setTimeout(scrollToTop, 0);
+  };
+
   return (
     <>
       <header className="sticky top-0 z-40 border-b border-line/80 bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/85">
@@ -50,6 +66,7 @@ export function Header() {
                 <li key={l.href}>
                   <Link
                     href={l.href}
+                    onClick={(e) => onNavClick(e, l.href)}
                     aria-current={isActive(pathname, l.href) ? "page" : undefined}
                     className={cx(
                       "rounded-md px-3 py-2 text-[0.9375rem] font-medium transition-colors",
@@ -122,7 +139,7 @@ export function Header() {
                 <li key={l.href}>
                   <Link
                     href={l.href}
-                    onClick={() => setOpen(false)}
+                    onClick={(e) => onNavClick(e, l.href)}
                     aria-current={isActive(pathname, l.href) ? "page" : undefined}
                     className={cx(
                       "block rounded-lg px-3 py-3 text-lg font-semibold",
