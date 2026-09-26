@@ -36,49 +36,52 @@ export function Header() {
   }, [open]);
 
   return (
-    <header className="sticky top-0 z-40 border-b border-line/80 bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/85">
-      <a href="#main" className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-3 focus:z-50 focus:rounded-md focus:bg-white focus:px-4 focus:py-2 focus:font-semibold focus:text-brand-700 focus:shadow">
-        Skip to content
-      </a>
-      <div className="mx-auto flex h-[4.5rem] max-w-7xl items-center justify-between gap-6 px-5 sm:px-8">
-        <Logo priority />
+    <>
+      <header className="sticky top-0 z-40 border-b border-line/80 bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/85">
+        <a href="#main" className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-3 focus:z-50 focus:rounded-md focus:bg-white focus:px-4 focus:py-2 focus:font-semibold focus:text-brand-700 focus:shadow">
+          Skip to content
+        </a>
+        <div className="mx-auto flex h-[4.5rem] max-w-7xl items-center justify-between gap-2 px-4 sm:gap-4 sm:px-8 lg:gap-6">
+          <Logo priority />
 
-        <nav aria-label="Main" className="hidden lg:block">
-          <ul className="flex items-center gap-1">
-            {navLinks.map((l) => (
-              <li key={l.href}>
-                <Link
-                  href={l.href}
-                  aria-current={isActive(pathname, l.href) ? "page" : undefined}
-                  className={cx(
-                    "rounded-md px-3 py-2 text-[0.9375rem] font-medium transition-colors",
-                    isActive(pathname, l.href) ? "text-brand-700" : "text-ink/80 hover:text-brand-700",
-                  )}
-                >
-                  {l.label}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </nav>
+          <nav aria-label="Main" className="hidden lg:block">
+            <ul className="flex items-center gap-1">
+              {navLinks.map((l) => (
+                <li key={l.href}>
+                  <Link
+                    href={l.href}
+                    aria-current={isActive(pathname, l.href) ? "page" : undefined}
+                    className={cx(
+                      "rounded-md px-3 py-2 text-[0.9375rem] font-medium transition-colors",
+                      isActive(pathname, l.href) ? "text-brand-700" : "text-ink/80 hover:text-brand-700",
+                    )}
+                  >
+                    {l.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </nav>
 
-        <div className="flex items-center gap-2">
-          <Link href="/contact#inquire" className={buttonClass("primary", "md", "hidden sm:inline-flex")}>
-            Inquire Now
-          </Link>
-          <button
-            ref={triggerRef}
-            type="button"
-            className="inline-flex size-11 items-center justify-center rounded-lg border border-line text-ink lg:hidden"
-            aria-expanded={open}
-            aria-controls="mobile-nav"
-            onClick={() => setOpen(true)}
-          >
-            <MenuIcon width={22} height={22} />
-            <span className="sr-only">Open menu</span>
-          </button>
+          <div className="flex shrink-0 items-center gap-2">
+            <Link href="/contact#inquire" className={buttonClass("primary", "md", "shrink-0 whitespace-nowrap")}>
+              Inquire Now
+            </Link>
+            <button
+              ref={triggerRef}
+              type="button"
+              className="inline-flex size-11 shrink-0 items-center justify-center rounded-lg border border-line text-ink lg:hidden"
+              aria-label="Open menu"
+              aria-expanded={open}
+              aria-controls="mobile-nav"
+              onClick={() => setOpen(true)}
+            >
+              <MenuIcon width={22} height={22} />
+              <span className="sr-only">Open menu</span>
+            </button>
+          </div>
         </div>
-      </div>
+      </header>
 
       {/* Mobile sheet */}
       <div
@@ -96,28 +99,30 @@ export function Header() {
           aria-label="Menu"
           inert={!open}
           className={cx(
-            "absolute inset-y-0 right-0 flex w-[min(22rem,88vw)] flex-col bg-white shadow-2xl transition-transform duration-250 ease-out",
+            "absolute inset-y-0 right-0 flex h-dvh max-h-dvh w-[min(22rem,88vw)] flex-col bg-white shadow-2xl transition-transform duration-250 ease-out",
             open ? "translate-x-0" : "translate-x-full",
           )}
         >
-          <div className="flex h-[4.5rem] items-center justify-between border-b border-line px-5">
+          <div className="flex h-[4.5rem] shrink-0 items-center justify-between border-b border-line px-5">
             <span className="text-sm font-semibold text-muted">Menu</span>
             <button
               ref={closeRef}
               type="button"
               onClick={() => setOpen(false)}
               className="inline-flex size-11 items-center justify-center rounded-lg text-ink hover:bg-mist"
+              aria-label="Close menu"
             >
               <CloseIcon width={22} height={22} />
               <span className="sr-only">Close menu</span>
             </button>
           </div>
-          <nav aria-label="Mobile" className="flex-1 overflow-y-auto px-3 py-4">
+          <nav aria-label="Mobile" className="min-h-0 flex-1 overflow-y-auto px-3 py-4">
             <ul>
               {navLinks.map((l) => (
                 <li key={l.href}>
                   <Link
                     href={l.href}
+                    onClick={() => setOpen(false)}
                     aria-current={isActive(pathname, l.href) ? "page" : undefined}
                     className={cx(
                       "block rounded-lg px-3 py-3 text-lg font-semibold",
@@ -130,19 +135,19 @@ export function Header() {
               ))}
             </ul>
           </nav>
-          <div className="space-y-2.5 border-t border-line p-5">
-            <a href={waLink(quickInquiryText())} target="_blank" rel="noopener noreferrer" className={buttonClass("whatsapp", "lg", "w-full")}>
+          <div className="shrink-0 space-y-2.5 border-t border-line p-5">
+            <a href={waLink(quickInquiryText())} target="_blank" rel="noopener noreferrer" onClick={() => setOpen(false)} className={buttonClass("whatsapp", "lg", "w-full")}>
               <WhatsAppIcon /> WhatsApp {site.whatsapp.name}
             </a>
-            <Link href="/contact#inquire" className={buttonClass("primary", "lg", "w-full")}>
+            <Link href="/contact#inquire" onClick={() => setOpen(false)} className={buttonClass("primary", "lg", "w-full")}>
               Inquire Now
             </Link>
-            <a href={`tel:${site.whatsapp.e164}`} className={buttonClass("secondary", "lg", "w-full")}>
+            <a href={`tel:${site.whatsapp.e164}`} onClick={() => setOpen(false)} className={buttonClass("secondary", "lg", "w-full")}>
               <PhoneIcon /> Call {site.whatsapp.display}
             </a>
           </div>
         </div>
       </div>
-    </header>
+    </>
   );
 }
