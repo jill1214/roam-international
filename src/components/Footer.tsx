@@ -168,7 +168,7 @@ export function Footer() {
             {site.messengerUrl && (
               <li className="flex gap-3">
                 <MessengerIcon
-                  className="mt-1 shrink-0 text-black"
+                  className="mt-1 shrink-0 text-brand-700"
                   width={18}
                   height={18}
                 />

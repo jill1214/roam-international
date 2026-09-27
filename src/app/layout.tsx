@@ -19,11 +19,21 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_PH",
     siteName: site.name,
-    images: [{ url: "/og-image.jpg", width: 1200, height: 630, alt: "ROAM International Travel and Tours, Your Gateway to ROAM the World" }],
+    images: [
+      {
+        url: "/og-image.jpg",
+        width: 1200,
+        height: 630,
+        alt: "ROAM International Travel and Tours, Your Gateway to ROAM the World",
+      },
+    ],
   },
   twitter: { card: "summary_large_image" },
   alternates: { canonical: "/" },
   formatDetection: { telephone: false },
+  other: {
+    "site-build": "ROAM-AMABINI-20260927-A7F3",
+  },
 };
 
 export const viewport: Viewport = {
@@ -32,13 +42,23 @@ export const viewport: Viewport = {
   initialScale: 1,
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
-    <html lang="en-PH" data-scroll-behavior="smooth">
+    <html
+      lang="en-PH"
+      data-scroll-behavior="smooth"
+      data-site-build="ROAM-AMABINI-20260927-A7F3"
+    >
       <body id="top" className="flex min-h-dvh flex-col">
         <JsonLd data={agencyJsonLd()} />
         <Header />
-        <main id="main" className="flex-1">{children}</main>
+        <main id="main" className="flex-1">
+          {children}
+        </main>
         <Footer />
         <FloatingWhatsApp />
       </body>
