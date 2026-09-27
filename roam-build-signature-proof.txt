@@ -1,0 +1,75 @@
+commit URL: https://github.com/jill1214/roam-international/commit/73ef9ab330b3faa2206e442e3e2879136e95c122
+
+commit 73ef9ab330b3faa2206e442e3e2879136e95c122
+Author: jill1214 <jillhtc2011@gmail.com>
+Date:   Sun Sep 27 13:53:57 2026 +0800
+
+    Add ROAM build signature
+
+diff --git a/src/app/layout.tsx b/src/app/layout.tsx
+index eea38af..419c9af 100644
+--- a/src/app/layout.tsx
++++ b/src/app/layout.tsx
+@@ -19,11 +19,21 @@ export const metadata: Metadata = {
+     type: "website",
+     locale: "en_PH",
+     siteName: site.name,
+-    images: [{ url: "/og-image.jpg", width: 1200, height: 630, alt: "ROAM International Travel and Tours, Your Gateway to ROAM the World" }],
++    images: [
++      {
++        url: "/og-image.jpg",
++        width: 1200,
++        height: 630,
++        alt: "ROAM International Travel and Tours, Your Gateway to ROAM the World",
++      },
++    ],
+   },
+   twitter: { card: "summary_large_image" },
+   alternates: { canonical: "/" },
+   formatDetection: { telephone: false },
++  other: {
++    "site-build": "ROAM-AMABINI-20260927-A7F3",
++  },
+ };
+ 
+ export const viewport: Viewport = {
+@@ -32,13 +42,23 @@ export const viewport: Viewport = {
+   initialScale: 1,
+ };
+ 
+-export default function RootLayout({ children }: { children: React.ReactNode }) {
++export default function RootLayout({
++  children,
++}: {
++  children: React.ReactNode;
++}) {
+   return (
+-    <html lang="en-PH" data-scroll-behavior="smooth">
++    <html
++      lang="en-PH"
++      data-scroll-behavior="smooth"
++      data-site-build="ROAM-AMABINI-20260927-A7F3"
++    >
+       <body id="top" className="flex min-h-dvh flex-col">
+         <JsonLd data={agencyJsonLd()} />
+         <Header />
+-        <main id="main" className="flex-1">{children}</main>
++        <main id="main" className="flex-1">
++          {children}
++        </main>
+         <Footer />
+         <FloatingWhatsApp />
+       </body>
+diff --git a/src/components/Footer.tsx b/src/components/Footer.tsx
+index 1759557..d0f0916 100644
+--- a/src/components/Footer.tsx
++++ b/src/components/Footer.tsx
+@@ -168,7 +168,7 @@ export function Footer() {
+             {site.messengerUrl && (
+               <li className="flex gap-3">
+                 <MessengerIcon
+-                  className="mt-1 shrink-0 text-black"
++                  className="mt-1 shrink-0 text-brand-700"
+                   width={18}
+                   height={18}
+                 />
