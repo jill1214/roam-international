@@ -113,7 +113,7 @@ export default function HomePage() {
           </div>
 
           <div className="relative mx-auto w-full max-w-[34rem]">
-            <RingMotif className="animate-ring-in-late absolute -inset-[7%] text-aqua-400/70" />
+            <RingMotif className="animate-ring-in-late absolute -inset-[7%] text-black/70" />
             <RingMotif className="animate-ring-in absolute -inset-[3%] text-brand-500" />
             <div className="relative aspect-square overflow-hidden rounded-full bg-brand-50 shadow-[0_40px_80px_-40px_rgba(14,58,95,0.55)]">
               <Image
