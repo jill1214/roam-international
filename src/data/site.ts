@@ -42,16 +42,19 @@ export const site = {
     waNumber: "639175581494",
   },
 
+  // Messenger chat link (kept out of `social` so it is not listed as a profile in JSON-LD sameAs).
+  messengerUrl: "https://m.me/RoamIntlTraveltours",
+
   contacts: [
     { name: "Miggie", display: "+63 917 558 1494", tel: "+639175581494", primary: true },
     { name: "Raul", display: "+63 917 820 7953", tel: "+639178207953", primary: false },
     { name: "Betsy", display: "+63 908 811 8691", tel: "+639088118691", primary: false },
   ],
 
-  // TODO: add real profile URLs. Leave as null to hide a link.
+  // Leave as null to hide a link.
   social: {
-    facebook: null as string | null,
-    instagram: null as string | null,
+    facebook: "https://www.facebook.com/RoamIntlTraveltours" as string | null,
+    instagram: "https://www.instagram.com/roam_international/" as string | null,
     tiktok: null as string | null,
   },
 
