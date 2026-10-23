@@ -46,7 +46,8 @@ export function Footer() {
             City, guiding travelers from planning to departure since{" "}
             {site.established.year}.
           </p>
-          <ul className="mt-5 flex gap-2" aria-label="Social media">
+
+          <ul className="mt-5 flex gap-2" aria-label="Social media and email">
             {socials.map(({ key, label, href, Icon }) => (
               <li key={key}>
                 {href ? (
@@ -55,12 +56,13 @@ export function Footer() {
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label={`ROAM on ${label} (opens in a new tab)`}
-                    className="inline-flex size-10 items-center justify-center rounded-lg border border-line bg-white text-black hover:border-brand-300"
+                    className={`inline-flex size-10 items-center justify-center rounded-lg border border-line bg-white hover:border-brand-300 ${
+                      key === "facebook" ? "text-[#0866FF]" : "text-[#C13584]"
+                    }`}
                   >
                     <Icon width={22} height={22} />
                   </a>
                 ) : (
-                  // Placeholder until ROAM's profile URLs are added in src/data/site.ts
                   <span
                     title={`${label} link coming soon`}
                     className="inline-flex size-10 items-center justify-center rounded-lg border border-dashed border-line text-muted/60"
@@ -71,6 +73,16 @@ export function Footer() {
                 )}
               </li>
             ))}
+
+            <li>
+              <a
+                href={`mailto:${site.email}`}
+                aria-label="Email ROAM"
+                className="inline-flex size-10 items-center justify-center rounded-lg border border-line bg-white text-brand-700 hover:border-brand-300"
+              >
+                <MailIcon width={22} height={22} />
+              </a>
+            </li>
           </ul>
         </div>
 
@@ -194,9 +206,20 @@ export function Footer() {
             {site.accreditation.number}, valid until{" "}
             {site.accreditation.validUntil}.
           </p>
-          <p>
-            © {new Date().getFullYear()} {site.name}
-          </p>
+
+          <div className="flex items-center gap-5">
+            <p>
+              © {new Date().getFullYear()} {site.name}
+            </p>
+            <a
+              href="#top"
+              aria-label="Back to top"
+              className="inline-flex min-h-11 items-center gap-2 rounded-lg border border-line bg-white px-3 font-semibold text-brand-700 hover:border-brand-300"
+            >
+              <span aria-hidden="true">↑</span>
+              Back to top
+            </a>
+          </div>
         </Container>
       </div>
     </footer>

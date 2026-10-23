@@ -100,6 +100,19 @@ export function Header() {
         </div>
       </header>
 
+      {/* Breadcrumb navigation. Tour detail pages have their own breadcrumb trail. */}
+      {pathname !== "/" && !/^\/tours\/[^/]+$/.test(pathname) && (
+        <nav aria-label="Breadcrumb" className="border-b border-line bg-white">
+          <div className="mx-auto flex max-w-7xl items-center gap-2 px-4 py-2 text-sm text-muted sm:px-8">
+            <Link href="/" className="hover:text-brand-700">Home</Link>
+            <span aria-hidden="true">/</span>
+            <span aria-current="page" className="font-medium text-ink">
+              {navLinks.find((link) => link.href === pathname)?.label ?? pathname.split("/").filter(Boolean).pop()?.replaceAll("-", " ")}
+            </span>
+          </div>
+        </nav>
+      )}
+
       {/* Mobile sheet */}
       <div
         className={cx("fixed inset-0 z-50 overflow-hidden transition-[visibility] lg:hidden", open ? "pointer-events-auto visible" : "pointer-events-none invisible delay-300")}
