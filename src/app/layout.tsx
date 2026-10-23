@@ -32,11 +32,19 @@ export const viewport: Viewport = {
   initialScale: 1,
 };
 
+// Switch to false when ROAM approves the public launch.
+const demoMode = true;
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en-PH" data-scroll-behavior="smooth">
       <body id="top" className="flex min-h-dvh flex-col">
         <JsonLd data={agencyJsonLd()} />
+        {demoMode && (
+          <div role="note" className="border-b border-line bg-mist px-4 py-2 text-center text-xs font-semibold leading-relaxed text-brand-800 sm:text-sm">
+            Website Preview | For demonstration purposes only.
+          </div>
+        )}
         <Header />
         <main id="main" className="flex-1">{children}</main>
         <Footer />
