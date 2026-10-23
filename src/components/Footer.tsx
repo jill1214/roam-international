@@ -8,8 +8,8 @@ import { FacebookIcon, InstagramIcon, MailIcon, PhoneIcon, PinIcon, WhatsAppIcon
 
 export function Footer() {
   const socials = [
-    { key: "facebook", label: "Facebook", href: site.social.facebook, Icon: FacebookIcon },
-    { key: "instagram", label: "Instagram", href: site.social.instagram, Icon: InstagramIcon },
+    { key: "facebook", label: "Facebook", href: site.social.facebook, Icon: FacebookIcon, color: "text-[#0866FF]" },
+    { key: "instagram", label: "Instagram", href: site.social.instagram, Icon: InstagramIcon, color: "text-[#C13584]" },
   ];
 
   return (
@@ -21,10 +21,10 @@ export function Footer() {
             A locally owned, DOT-accredited travel and tour agency in Legazpi City, guiding travelers from planning to departure since {site.established.year}.
           </p>
           <ul className="mt-5 flex gap-2" aria-label="Social media">
-            {socials.map(({ key, label, href, Icon }) => (
+            {socials.map(({ key, label, href, Icon, color }) => (
               <li key={key}>
                 {href ? (
-                  <a href={href} target="_blank" rel="noopener noreferrer" className="inline-flex size-10 items-center justify-center rounded-lg border border-line bg-white text-brand-700 hover:border-brand-300">
+                  <a href={href} target="_blank" rel="noopener noreferrer" className={`inline-flex size-10 items-center justify-center rounded-lg border border-line bg-white hover:border-brand-300 ${color}`}>
                     <Icon /><span className="sr-only">{label}</span>
                   </a>
                 ) : (
@@ -36,6 +36,9 @@ export function Footer() {
               </li>
             ))}
           </ul>
+          <a href={`mailto:${site.email}`} aria-label="Email ROAM" className="mt-3 inline-flex size-10 items-center justify-center rounded-lg border border-line bg-white text-brand-700 hover:border-brand-300">
+            <MailIcon />
+          </a>
         </div>
 
         <nav aria-label="Footer">
@@ -90,7 +93,7 @@ export function Footer() {
           <p>
             {site.accreditation.label}. Accreditation No. {site.accreditation.number}, valid until {site.accreditation.validUntil}.
           </p>
-          <p>© {new Date().getFullYear()} {site.name}</p>
+          <div className="flex items-center gap-5"><p>© {new Date().getFullYear()} {site.name}</p><a href="#top" className="inline-flex min-h-11 items-center gap-2 rounded-lg border border-line bg-white px-3 font-semibold text-brand-700 hover:border-brand-300" aria-label="Back to top"><span aria-hidden="true">↑</span> Back to top</a></div>
         </Container>
       </div>
     </footer>
