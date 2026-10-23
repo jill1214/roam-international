@@ -18,12 +18,12 @@ export function TourCard({ tour, headingLevel = "h3", compact = false }: { tour:
           sizes="(min-width: 1280px) 600px, (min-width: 768px) 50vw, 100vw"
           className={`object-cover ${tour.cover.position ?? "object-top"} transition-transform duration-500 group-hover:scale-[1.03]`}
         />
-        <span className="absolute left-[7%] top-[24%] rounded-md bg-white/95 px-2.5 py-1 text-xs font-semibold text-brand-800 shadow-sm">
-          {tour.category === "Guided tour" ? "Guided Tour" : tour.category}
-        </span>
       </div>
 
       <div className="flex flex-1 flex-col p-5 sm:p-6">
+        <span className="mb-3 w-fit rounded-md bg-brand-50 px-2.5 py-1 text-xs font-semibold text-brand-800">
+          {tour.category === "Guided tour" ? "Guided Tour" : tour.category}
+        </span>
         <p className="flex items-center gap-1.5 text-sm font-medium text-muted">
           <PinIcon width={15} height={15} className="text-brand-500" />
           {tour.destination}, {tour.country}
