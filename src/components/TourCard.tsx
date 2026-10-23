@@ -18,8 +18,8 @@ export function TourCard({ tour, headingLevel = "h3", compact = false }: { tour:
           sizes="(min-width: 1280px) 600px, (min-width: 768px) 50vw, 100vw"
           className={`object-cover ${tour.cover.position ?? "object-top"} transition-transform duration-500 group-hover:scale-[1.03]`}
         />
-        <span className="absolute left-3 top-3 rounded-md bg-white/95 px-2.5 py-1 text-xs font-semibold text-brand-800 shadow-sm">
-          {tour.category}
+        <span className="absolute left-[7%] top-[24%] rounded-md bg-white/95 px-2.5 py-1 text-xs font-semibold text-brand-800 shadow-sm">
+          {tour.category === "Guided tour" ? "Guided Tour" : tour.category}
         </span>
       </div>
 
