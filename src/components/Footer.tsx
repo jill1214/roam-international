@@ -35,10 +35,12 @@ export function Footer() {
                 )}
               </li>
             ))}
+            <li>
+              <a href={`mailto:${site.email}`} aria-label="Email ROAM" className="inline-flex size-10 items-center justify-center rounded-lg border border-line bg-white text-brand-700 hover:border-brand-300">
+                <MailIcon />
+              </a>
+            </li>
           </ul>
-          <a href={`mailto:${site.email}`} aria-label="Email ROAM" className="mt-3 inline-flex size-10 items-center justify-center rounded-lg border border-line bg-white text-brand-700 hover:border-brand-300">
-            <MailIcon />
-          </a>
         </div>
 
         <nav aria-label="Footer">
