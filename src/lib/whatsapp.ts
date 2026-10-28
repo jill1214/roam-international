@@ -31,10 +31,7 @@ Additional Questions:
 Please send me more information about this tour.`
     : `Hi ${site.name},
 
-I'd like to inquire about a trip.
-
-Message:
-I'd like to ask about planning a trip.`;
+I'd like to inquire about a trip.`;
 }
 
 function formatDate(value?: string): string {
