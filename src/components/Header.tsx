@@ -23,6 +23,8 @@ export function Header() {
   const [open, setOpen] = useState(false);
   const closeRef = useRef<HTMLButtonElement>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
+  const desktopToursRef = useRef<HTMLDetailsElement>(null);
+  const mobileToursRef = useRef<HTMLDetailsElement>(null);
 
   useEffect(() => setOpen(false), [pathname]);
 
@@ -39,6 +41,36 @@ export function Header() {
       triggerRef.current?.focus();
     };
   }, [open]);
+
+  useEffect(() => {
+    const menus = [desktopToursRef.current, mobileToursRef.current];
+
+    const closeTourMenus = (restoreFocus = false) => {
+      const openMenu = menus.find((menu) => menu?.open);
+      if (!openMenu) return false;
+      menus.forEach((menu) => menu?.removeAttribute("open"));
+      if (restoreFocus) openMenu.querySelector<HTMLElement>("summary")?.focus();
+      return true;
+    };
+
+    const onPointerDown = (event: PointerEvent) => {
+      if (menus.some((menu) => menu?.contains(event.target as Node))) return;
+      closeTourMenus();
+    };
+
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key !== "Escape" || !closeTourMenus(true)) return;
+      event.preventDefault();
+      event.stopPropagation();
+    };
+
+    document.addEventListener("pointerdown", onPointerDown);
+    document.addEventListener("keydown", onKeyDown);
+    return () => {
+      document.removeEventListener("pointerdown", onPointerDown);
+      document.removeEventListener("keydown", onKeyDown);
+    };
+  }, []);
 
   // Clicking "Home" on the homepage is a no-op for the router, so scroll to the
   // top (the hero) ourselves and drop any stale hash left in the URL.
@@ -70,7 +102,7 @@ export function Header() {
               {navLinks.map((l) => (
                 <li key={l.href}>
                   {l.href === "/tours" ? (
-                    <details className="group relative">
+                    <details ref={desktopToursRef} className="group relative">
                       <summary className={cx(
                         "flex cursor-pointer list-none items-center gap-1 rounded-md px-3 py-2 text-[0.9375rem] font-medium transition-colors [&::-webkit-details-marker]:hidden",
                         isActive(pathname, l.href) ? "text-brand-700" : "text-ink/80 hover:text-brand-700",
@@ -178,7 +210,7 @@ export function Header() {
               {navLinks.map((l) => (
                 <li key={l.href}>
                   {l.href === "/tours" ? (
-                    <details className="group">
+                    <details ref={mobileToursRef} className="group">
                       <summary className={cx(
                         "flex cursor-pointer list-none items-center justify-between rounded-lg px-3 py-3 text-lg font-semibold [&::-webkit-details-marker]:hidden",
                         isActive(pathname, l.href) ? "bg-brand-50 text-brand-700" : "text-ink hover:bg-mist",
