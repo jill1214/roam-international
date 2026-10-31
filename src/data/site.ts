@@ -3,18 +3,10 @@
  * Update contact numbers, links and accreditation here — every page reads from this file.
  */
 
-export const site = {
-  name: "ROAM International Travel and Tours",
-  shortName: "ROAM",
-  legalType: "Travel and Tour Agency",
-  tagline: "Your Gateway to ROAM the World",
-  description:
-    "DOT-accredited travel and tour agency in Legazpi City, Albay. International tour packages, visa assistance, customized tours and group travel, with personal guidance from planning to departure.",
-  // Replace with the production domain before launch (used for canonical URLs, sitemap and structured data).
-  url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.roaminternationaltravel.com",
-  established: { month: "December", year: 2004, iso: "2004-12" },
-  locallyOwned: true,
-
+const legazpiOffice = {
+  id: "legazpi",
+  name: "Legazpi office",
+  primary: true,
   address: {
     street: "117 Washington Drive",
     city: "Legazpi City",
@@ -22,7 +14,51 @@ export const site = {
     region: "Region V",
     country: "Philippines",
     countryCode: "PH",
+    postalCode: "4500",
   },
+  hours: "9:00 AM–6:00 PM",
+  hoursNote: "Operating days and Saturday hours are pending confirmation.",
+  maps: {
+    query: "117 Washington Drive, Legazpi City, Albay 4500, Philippines",
+    embedUrl:
+      "https://www.google.com/maps?q=117+Washington+Drive,+Legazpi+City,+Albay,+Philippines&output=embed",
+    directionsUrl:
+      "https://www.google.com/maps/dir/?api=1&destination=117+Washington+Drive%2C+Legazpi+City%2C+Albay%2C+Philippines",
+  },
+} as const;
+
+const antipoloOffice = {
+  id: "antipolo",
+  name: "Antipolo office",
+  primary: false,
+  address: {
+    street: "4A Santol St., Town & Country Executive Village",
+    city: "Antipolo City",
+    province: "Rizal",
+    region: "Calabarzon",
+    country: "Philippines",
+    countryCode: "PH",
+    postalCode: null,
+  },
+  hours: null,
+  hoursNote: "Office hours pending confirmation.",
+  maps: null,
+} as const;
+
+export const site = {
+  name: "ROAM International Travel and Tours",
+  shortName: "ROAM",
+  legalType: "Travel and Tour Agency",
+  tagline: "Your Gateway to ROAM the World",
+  description:
+    "DOT-accredited travel agency helping travelers discover Bicol, explore the Philippines and journey abroad through tours, visa assistance and trusted travel guidance.",
+  // Replace with the production domain before launch (used for canonical URLs, sitemap and structured data).
+  url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://roam-international.vercel.app",
+  established: { month: "December", year: 2004, iso: "2004-12" },
+  locallyOwned: true,
+
+  address: legazpiOffice.address,
+  offices: [legazpiOffice, antipoloOffice],
 
   accreditation: {
     body: "Department of Tourism",
@@ -58,17 +94,10 @@ export const site = {
     tiktok: null as string | null,
   },
 
-  maps: {
-    query: "117 Washington Drive, Legazpi City, Albay, Philippines",
-    // TODO: optionally replace with the exact Google Maps "Share > Embed a map" URL for the office pin.
-    embedUrl:
-      "https://www.google.com/maps?q=117+Washington+Drive,+Legazpi+City,+Albay,+Philippines&output=embed",
-    directionsUrl:
-      "https://www.google.com/maps/dir/?api=1&destination=117+Washington+Drive%2C+Legazpi+City%2C+Albay%2C+Philippines",
-  },
+  maps: legazpiOffice.maps,
 } as const;
 
-export const fullAddress = `${site.address.street}, ${site.address.city}, ${site.address.province}, ${site.address.country}`;
+export const fullAddress = `${site.address.street}, ${site.address.city}, ${site.address.province} ${site.address.postalCode}, ${site.address.country}`;
 
 /** Travelers served "since 2004". Computed so the copy never goes stale. */
 export function yearsInTravel(now = new Date()): number {
@@ -86,4 +115,21 @@ export const navLinks = [
   { href: "/travel-inspiration", label: "Travel Inspiration" },
   { href: "/faqs", label: "FAQs" },
   { href: "/contact", label: "Contact" },
+] as const;
+
+export const tourNavGroups = [
+  {
+    label: "Philippines",
+    links: [
+      { href: "/tours#bicol-tours", label: "Bicol Tours" },
+      { href: "/tours#other-philippines", label: "Other Philippine Destinations" },
+    ],
+  },
+  {
+    label: "International",
+    links: [
+      { href: "/tours#international-tours", label: "International Tour Packages" },
+      { href: "/tours#cruises", label: "Cruises" },
+    ],
+  },
 ] as const;

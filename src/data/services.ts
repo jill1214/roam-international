@@ -10,18 +10,6 @@ export type Service = {
 
 export const services: Service[] = [
   {
-    slug: "international-tours",
-    title: "International Tour Packages",
-    summary: "Carefully selected international experiences for individuals, families and groups.",
-    details: [
-      "Ready-to-book packages with airfare, hotels, transport, an English-speaking guide and sightseeing arranged for you.",
-      "We explain what each package includes and excludes, how departure-date surcharges work, and what fees are collected with the tour fee.",
-      "We help you pick the departure and package that fits your budget, schedule and the people you're traveling with.",
-    ],
-    forWho: "Families, couples, senior travelers and first-time international travelers.",
-    cta: "View tour packages",
-  },
-  {
     slug: "visa-assistance",
     title: "Visa Assistance",
     summary: "Guidance in preparing visa requirements and documentation.",
@@ -33,6 +21,30 @@ export const services: Service[] = [
     forWho: "Travelers heading to destinations that require a visa, including first-time applicants.",
     note: "Visa approval remains at the sole discretion of the relevant embassy or consulate. ROAM assists with preparation but cannot guarantee approval.",
     cta: "Ask about visa assistance",
+  },
+  {
+    slug: "philippine-inbound-tours",
+    title: "Philippine & Inbound Tours",
+    summary: "Travel planning for Bicol and destinations across the Philippines.",
+    details: [
+      "Ask us about Bicol experiences, including Albay and nearby destinations, shaped around your dates and group.",
+      "We arrange Philippine itineraries for local travelers and visitors exploring the country.",
+      "Package details, schedules and rates are prepared and confirmed with you before booking.",
+    ],
+    forWho: "Families, private groups and visitors who want to explore Bicol or other Philippine destinations.",
+    cta: "Plan a Philippine trip",
+  },
+  {
+    slug: "international-tours",
+    title: "International Tour Packages",
+    summary: "Carefully selected international experiences for individuals, families and groups.",
+    details: [
+      "Current tour packages with airfare, hotels, transport, an English-speaking guide and sightseeing arranged for you.",
+      "We explain what each package includes and excludes, how departure-date surcharges work, and what fees are collected with the tour fee.",
+      "We help you pick the departure and package that fits your budget, schedule and the people you're traveling with.",
+    ],
+    forWho: "Families, couples, senior travelers and first-time international travelers.",
+    cta: "View tour packages",
   },
   {
     slug: "customized-tours",
@@ -63,7 +75,6 @@ export const services: Service[] = [
 
 /** Also listed in ROAM's Facebook bio. Shown as a secondary line on the Services page. */
 export const otherServices = [
-  "Local and inbound tour packages",
   "Airline ticketing",
   "Hotel reservations",
   "Other travel arrangements",

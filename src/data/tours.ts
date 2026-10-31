@@ -8,14 +8,15 @@
  */
 
 export type MealCode = "B" | "L" | "D";
+export type Currency = "PHP" | "USD";
 
 export type Departure = {
   /** Human-readable date range, e.g. "Nov 29 – Dec 4, 2026" */
   label: string;
   /** ISO start date, used for sorting / future filters */
   start: string;
-  /** Surcharge on top of the starting rate, in USD. 0 = no surcharge. */
-  surchargeUsd?: number;
+  /** Surcharge on top of the starting rate, in the tour's currency. 0 = no surcharge. */
+  surcharge?: number;
   soldOut?: boolean;
 };
 
@@ -29,20 +30,22 @@ export type ItineraryDay = {
   notes?: string[];
 };
 
-export type FareOption = { label: string; priceUsd: number };
+export type FareOption = { label: string; price: number };
 
 export type Tour = {
   slug: string;
   name: string;
   destination: string;
   country: string;
-  region: "East Asia" | "Southeast Asia";
+  market: "Philippines" | "International";
+  region: "Bicol" | "Other Philippines" | "East Asia" | "Southeast Asia";
   category: "Guided tour" | "Cruise";
   tagline: string;
   summary: string;
   duration: string;
   durationShort: string;
-  priceFromUsd: number;
+  currency: Currency;
+  priceFrom: number;
   priceLabel: string;
   priceBasis: string;
   travelPeriod: string;
@@ -55,7 +58,7 @@ export type Tour = {
   itinerary?: ItineraryDay[];
   inclusions: string[];
   exclusions: string[];
-  optionalTours?: { label: string; priceUsd: number; note?: string }[];
+  optionalTours?: { label: string; price: number; note?: string }[];
   importantNotes: string[];
   /** `position` = Tailwind object-position class for cropping (default "object-top") */
   cover: { src: string; width: number; height: number; alt: string; position?: string };
@@ -73,6 +76,7 @@ export const tours: Tour[] = [
     name: "Harbin Snow Town",
     destination: "Harbin & Snow Town",
     country: "China",
+    market: "International",
     region: "East Asia",
     category: "Guided tour",
     tagline: "Snow-covered villages, ice sculptures and sleigh rides in China's far north.",
@@ -80,7 +84,8 @@ export const tours: Tour[] = [
       "Step into a real winter wonderland. Snow-covered villages, dazzling ice sculptures, sleigh rides, penguins and some of China's most magical winter scenery await on this six-day Harbin Snow Town tour.",
     duration: "6 Days / 5 Nights",
     durationShort: "6D5N",
-    priceFromUsd: 1099,
+    currency: "USD",
+    priceFrom: 1099,
     priceLabel: "From",
     priceBasis: "per person",
     travelPeriod: "Nov 2026 – Feb 2027 departures",
@@ -105,14 +110,14 @@ export const tours: Tour[] = [
     ],
     departures: [
       { label: "Nov 25 – 30, 2026", start: "2026-11-25", soldOut: true },
-      { label: "Nov 29 – Dec 4, 2026", start: "2026-11-29", surchargeUsd: 100 },
-      { label: "Dec 1 – 6, 2026", start: "2026-12-01", surchargeUsd: 200 },
-      { label: "Dec 2 – 7, 2026", start: "2026-12-02", surchargeUsd: 200 },
-      { label: "Dec 8 – 13, 2026", start: "2026-12-08", surchargeUsd: 200 },
-      { label: "Dec 16 – 21, 2026", start: "2026-12-16", surchargeUsd: 500 },
-      { label: "Jan 1 – 6, 2027", start: "2027-01-01", surchargeUsd: 600 },
-      { label: "Jan 3 – 8, 2027", start: "2027-01-03", surchargeUsd: 600 },
-      { label: "Feb 7 – 12, 2027", start: "2027-02-07", surchargeUsd: 600 },
+      { label: "Nov 29 – Dec 4, 2026", start: "2026-11-29", surcharge: 100 },
+      { label: "Dec 1 – 6, 2026", start: "2026-12-01", surcharge: 200 },
+      { label: "Dec 2 – 7, 2026", start: "2026-12-02", surcharge: 200 },
+      { label: "Dec 8 – 13, 2026", start: "2026-12-08", surcharge: 200 },
+      { label: "Dec 16 – 21, 2026", start: "2026-12-16", surcharge: 500 },
+      { label: "Jan 1 – 6, 2027", start: "2027-01-01", surcharge: 600 },
+      { label: "Jan 3 – 8, 2027", start: "2027-01-03", surcharge: 600 },
+      { label: "Feb 7 – 12, 2027", start: "2027-02-07", surcharge: 600 },
     ],
     itinerary: [
       { day: 1, title: "Arrive in Harbin", meals: ["D"], stay: "5-star hotel in Harbin",
@@ -163,6 +168,7 @@ export const tours: Tour[] = [
     name: "Avatar Skiing",
     destination: "Changsha & Zhangjiajie",
     country: "China",
+    market: "International",
     region: "East Asia",
     category: "Guided tour",
     tagline: "Skiing, glass bridges and the towering peaks of Zhangjiajie.",
@@ -170,7 +176,8 @@ export const tours: Tour[] = [
       "Experience winter in a whole new way. This seven-day tour combines snowy landscapes, skiing and the spectacular sandstone pillars of Zhangjiajie, with city time in Changsha at either end.",
     duration: "7 Days / 6 Nights",
     durationShort: "7D6N",
-    priceFromUsd: 599,
+    currency: "USD",
+    priceFrom: 599,
     priceLabel: "As low as",
     priceBasis: "per person",
     travelPeriod: "Jan – Feb 2027 departures",
@@ -191,10 +198,10 @@ export const tours: Tour[] = [
       "Includes mandatory shopping stops",
     ],
     departures: [
-      { label: "Jan 10 – 16, 2027", start: "2027-01-10", surchargeUsd: 50 },
-      { label: "Jan 11 – 17, 2027", start: "2027-01-11", surchargeUsd: 50 },
-      { label: "Jan 15 – 21, 2027", start: "2027-01-15", surchargeUsd: 0 },
-      { label: "Feb 13 – 19, 2027", start: "2027-02-13", surchargeUsd: 50 },
+      { label: "Jan 10 – 16, 2027", start: "2027-01-10", surcharge: 50 },
+      { label: "Jan 11 – 17, 2027", start: "2027-01-11", surcharge: 50 },
+      { label: "Jan 15 – 21, 2027", start: "2027-01-15", surcharge: 0 },
+      { label: "Feb 13 – 19, 2027", start: "2027-02-13", surcharge: 50 },
     ],
     itinerary: [
       { day: 1, title: "Arrive in Changsha", stay: "5-star hotel in Changsha",
@@ -234,9 +241,9 @@ export const tours: Tour[] = [
       "Personal expenses such as telephone calls and minibar",
     ],
     optionalTours: [
-      { label: "Tianmen Mountain Scenic Area", priceUsd: 85 },
-      { label: "Charming Xiangxi Show", priceUsd: 70 },
-      { label: "Huanglong Cave (with boat ride)", priceUsd: 70 },
+      { label: "Tianmen Mountain Scenic Area", price: 85 },
+      { label: "Charming Xiangxi Show", price: 70 },
+      { label: "Huanglong Cave (with boat ride)", price: 70 },
     ],
     importantNotes: [
       "This itinerary includes mandatory shopping stops on Days 3, 4 and 5.",
@@ -255,6 +262,7 @@ export const tours: Tour[] = [
     name: "Disney Adventure with Langkawi",
     destination: "Singapore & Langkawi",
     country: "Malaysia",
+    market: "International",
     region: "Southeast Asia",
     category: "Cruise",
     tagline: "A family cruise from Singapore with a call at Langkawi, Malaysia.",
@@ -262,7 +270,8 @@ export const tours: Tour[] = [
       "Set sail aboard Disney Adventure on a four-night cruise from Singapore featuring a visit to Langkawi, Malaysia on select sailings. From Disney magic at sea to tropical island scenery, it's a getaway the whole family can look forward to.",
     duration: "4-Night Cruise",
     durationShort: "4 nights",
-    priceFromUsd: 774,
+    currency: "USD",
+    priceFrom: 774,
     priceLabel: "From",
     priceBasis: "per person, twin sharing",
     travelPeriod: "Sailings Dec 31, 2026 – Dec 2027",
@@ -279,10 +288,10 @@ export const tours: Tour[] = [
       "Four stateroom categories",
     ],
     fares: [
-      { label: "Inside Stateroom", priceUsd: 774 },
-      { label: "Oceanview Stateroom", priceUsd: 1027 },
-      { label: "Balcony Stateroom", priceUsd: 1146 },
-      { label: "Concierge Stateroom", priceUsd: 2471 },
+      { label: "Inside Stateroom", price: 774 },
+      { label: "Oceanview Stateroom", price: 1027 },
+      { label: "Balcony Stateroom", price: 1146 },
+      { label: "Concierge Stateroom", price: 2471 },
     ],
     departuresNote: "Sailing dates, all departing Thursdays.",
     departures: [
@@ -320,6 +329,7 @@ export const tours: Tour[] = [
     name: "Osaka, Kyoto & Nara",
     destination: "Osaka, Kyoto & Nara",
     country: "Japan",
+    market: "International",
     region: "East Asia",
     category: "Guided tour",
     tagline: "Shrines, bamboo groves, friendly deer and a free day in Osaka.",
@@ -327,7 +337,8 @@ export const tours: Tour[] = [
       "From Kyoto's shrines and bamboo groves to the friendly deer of Nara and the energy of Osaka, experience some of Japan's most loved destinations in five days. Ideal for a first trip to Japan or a return visit.",
     duration: "5 Days / 4 Nights",
     durationShort: "5D4N",
-    priceFromUsd: 799,
+    currency: "USD",
+    priceFrom: 799,
     priceLabel: "From",
     priceBasis: "per person",
     travelPeriod: "Oct 2026 – Apr 2027 departures",
@@ -349,19 +360,19 @@ export const tours: Tour[] = [
       "English-speaking tour guide",
     ],
     departures: [
-      { label: "Oct 10 – 14, 2026", start: "2026-10-10", surchargeUsd: 100 },
-      { label: "Oct 17 – 21, 2026", start: "2026-10-17", surchargeUsd: 100 },
-      { label: "Nov 7 – 11, 2026", start: "2026-11-07", surchargeUsd: 160 },
-      { label: "Dec 5 – 9, 2026", start: "2026-12-05", surchargeUsd: 60 },
-      { label: "Dec 12 – 16, 2026", start: "2026-12-12", surchargeUsd: 100 },
-      { label: "Jan 16 – 20, 2027", start: "2027-01-16", surchargeUsd: 0 },
-      { label: "Jan 23 – 27, 2027", start: "2027-01-23", surchargeUsd: 0 },
-      { label: "Feb 20 – 24, 2027", start: "2027-02-20", surchargeUsd: 60 },
-      { label: "Feb 25 – Mar 1, 2027", start: "2027-02-25", surchargeUsd: 60 },
-      { label: "Mar 6 – 10, 2027", start: "2027-03-06", surchargeUsd: 60 },
-      { label: "Mar 13 – 17, 2027", start: "2027-03-13", surchargeUsd: 60 },
-      { label: "Apr 17 – 21, 2027", start: "2027-04-17", surchargeUsd: 60 },
-      { label: "Apr 24 – 28, 2027", start: "2027-04-24", surchargeUsd: 60 },
+      { label: "Oct 10 – 14, 2026", start: "2026-10-10", surcharge: 100 },
+      { label: "Oct 17 – 21, 2026", start: "2026-10-17", surcharge: 100 },
+      { label: "Nov 7 – 11, 2026", start: "2026-11-07", surcharge: 160 },
+      { label: "Dec 5 – 9, 2026", start: "2026-12-05", surcharge: 60 },
+      { label: "Dec 12 – 16, 2026", start: "2026-12-12", surcharge: 100 },
+      { label: "Jan 16 – 20, 2027", start: "2027-01-16", surcharge: 0 },
+      { label: "Jan 23 – 27, 2027", start: "2027-01-23", surcharge: 0 },
+      { label: "Feb 20 – 24, 2027", start: "2027-02-20", surcharge: 60 },
+      { label: "Feb 25 – Mar 1, 2027", start: "2027-02-25", surcharge: 60 },
+      { label: "Mar 6 – 10, 2027", start: "2027-03-06", surcharge: 60 },
+      { label: "Mar 13 – 17, 2027", start: "2027-03-13", surcharge: 60 },
+      { label: "Apr 17 – 21, 2027", start: "2027-04-17", surcharge: 60 },
+      { label: "Apr 24 – 28, 2027", start: "2027-04-24", surcharge: 60 },
     ],
     itinerary: [
       { day: 1, title: "Arrive in Osaka", stay: "4-star hotel in Osaka",
@@ -396,7 +407,7 @@ export const tours: Tour[] = [
       "Personal expenses such as telephone calls and minibar",
     ],
     optionalTours: [
-      { label: "Universal Studios Japan (one-day pass and transfer)", priceUsd: 159, note: "Minimum 10 travelers" },
+      { label: "Universal Studios Japan (one-day pass and transfer)", price: 159, note: "Minimum 10 travelers" },
     ],
     importantNotes: [
       "Surcharges apply per departure date and are added to the starting rate.",
@@ -419,6 +430,6 @@ export function getRelatedTours(slug: string, limit = 3): Tour[] {
   return tours.filter((t) => t.slug !== slug).slice(0, limit);
 }
 
-export function formatUsd(value: number): string {
-  return `USD ${value.toLocaleString("en-US")}`;
+export function formatCurrency(value: number, currency: Currency): string {
+  return `${currency} ${value.toLocaleString("en-US")}`;
 }

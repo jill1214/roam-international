@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { Tour } from "@/data/tours";
-import { formatUsd } from "@/data/tours";
+import { formatCurrency } from "@/data/tours";
 import { CalendarIcon, CheckIcon, ClockIcon, PinIcon } from "./Icons";
 import { buttonClass, cx } from "./ui";
 
@@ -58,10 +58,14 @@ export function TourCard({ tour, headingLevel = "h3", compact = false }: { tour:
           </ul>
         )}
 
+        <p className="mb-5 rounded-lg bg-mist px-3 py-2 text-sm text-body">
+          <strong className="text-ink">Check for availability.</strong> Tour schedules, rates, and inclusions are subject to confirmation by ROAM.
+        </p>
+
         <div className="mt-auto flex flex-wrap items-end justify-between gap-4 border-t border-line pt-5">
           <p className="leading-tight">
             <span className="block text-xs font-medium text-muted">{tour.priceLabel}</span>
-            <span className="text-2xl font-bold tracking-tight text-ink">{formatUsd(tour.priceFromUsd)}</span>
+            <span className="text-2xl font-bold tracking-tight text-ink">{formatCurrency(tour.priceFrom, tour.currency)}</span>
             <span className="block text-xs text-muted">{tour.priceBasis}</span>
           </p>
           <div className="relative z-10 flex gap-2">

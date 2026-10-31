@@ -31,12 +31,6 @@ export const inspiration: InspirationEntry[] = [
       "In September 2026, ROAM joined the Philippine Travel Agent South Korea Famtour across Gyeonggi, Ulsan and Busan, seeing firsthand the places we recommend to travelers.",
     category: "Familiarization Tour",
     location: "Gyeonggi, Ulsan & Busan",
-    image: {
-      src: "/images/stories/south-korea-famtour-2026.jpg",
-      width: 1800,
-      height: 1013,
-      alt: "ROAM team and fellow Philippine travel agents holding the 2026 South Korea Famtour banner at a harbor in South Korea",
-    },
     status: "coming-soon",
   },
   {
@@ -47,10 +41,10 @@ export const inspiration: InspirationEntry[] = [
     category: "Destination Discoveries",
     location: "Busan, South Korea",
     image: {
-      src: "/images/stories/busan-haeundae-group.png",
-      width: 1448,
-      height: 1086,
-      alt: "ROAM travelers on Haeundae Beach in Busan, with the sweep of sand, the turquoise sea and the city's high-rise skyline behind them",
+      src: "/images/stories/roam-posts-image-busan3.jpg",
+      width: 2048,
+      height: 1152,
+      alt: "Busan harbor and cable-stayed bridge with the city and mountains in the distance",
     },
     status: "coming-soon",
   },

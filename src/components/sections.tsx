@@ -107,7 +107,7 @@ export function AccreditationPanel({ className }: { className?: string }) {
           <div>
             <dt className="text-sm text-muted">Registered office</dt>
             <dd className="font-semibold text-ink">
-              {site.address.street}, {site.address.city}, {site.address.province}, {site.address.region}
+              {site.address.street}, {site.address.city}, {site.address.province} {site.address.postalCode}, {site.address.region}
             </dd>
           </div>
         </dl>
@@ -170,17 +170,25 @@ export function LocationBlock({ headingLevel = "h2" }: { headingLevel?: "h2" | "
     <div className="grid gap-8 lg:grid-cols-[1fr_1.3fr]">
       <div>
         <H id="visit-heading" className="text-[clamp(1.85rem,3.6vw,2.5rem)] font-bold">Visit or Message Us</H>
-        <address className="mt-5 flex gap-3 not-italic text-lg text-ink">
-          <PinIcon className="mt-1.5 shrink-0 text-brand-600" />
-          <span>
-            {site.name}<br />
-            {site.address.street}<br />
-            {site.address.city}, {site.address.province}<br />
-            {site.address.country}
-          </span>
-        </address>
+        <div className="mt-5 space-y-5">
+          {site.offices.map((office) => (
+            <section key={office.id} aria-labelledby={`${office.id}-office-heading`} className="flex gap-3">
+              <PinIcon className="mt-1.5 shrink-0 text-brand-600" />
+              <div>
+                <h3 id={`${office.id}-office-heading`} className="font-bold text-ink">{office.name}</h3>
+                <address className="not-italic text-body">
+                  {office.address.street}<br />
+                  {office.address.city}, {office.address.province}{office.address.postalCode ? ` ${office.address.postalCode}` : ""}<br />
+                  {office.address.country}
+                </address>
+                {office.hours ? <p className="mt-1 text-sm text-muted">Client-stated office hours: {office.hours}</p> : null}
+                <p className="text-sm text-muted">{office.hoursNote}</p>
+              </div>
+            </section>
+          ))}
+        </div>
         <div className="mt-6 flex flex-wrap gap-2.5">
-          <ExternalButton href={site.maps.directionsUrl} variant="primary"><PinIcon /> Get Directions</ExternalButton>
+          <ExternalButton href={site.maps.directionsUrl} variant="primary"><PinIcon /> Legazpi Directions</ExternalButton>
           <ExternalButton href={`tel:${site.whatsapp.e164}`} variant="secondary"><PhoneIcon /> Call</ExternalButton>
           <ExternalButton href={waLink(quickInquiryText())} variant="whatsapp"><WhatsAppIcon /> WhatsApp</ExternalButton>
           {site.social.facebook && (
@@ -189,7 +197,10 @@ export function LocationBlock({ headingLevel = "h2" }: { headingLevel?: "h2" | "
         </div>
         <div className="mt-8"><ContactList /></div>
       </div>
-      <MapEmbed className="min-h-[22rem] lg:min-h-full" />
+      <div>
+        <MapEmbed className="min-h-[22rem]" />
+        <p className="mt-2 text-sm text-muted">Map and directions are for the primary Legazpi office. Antipolo directions will be added after its exact map destination is verified.</p>
+      </div>
     </div>
   );
 }

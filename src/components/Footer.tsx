@@ -118,20 +118,17 @@ export function Footer() {
         <div>
           <h2 className="text-sm font-bold text-ink">Contact</h2>
           <ul className="mt-4 space-y-3 text-[0.9375rem]">
-            <li className="flex gap-3">
-              <PinIcon
-                className="mt-1 shrink-0 text-brand-600"
-                width={18}
-                height={18}
-              />
-              <address className="not-italic text-muted">
-                {site.address.street}
-                <br />
-                {site.address.city}, {site.address.province}
-                <br />
-                {site.address.country}
-              </address>
-            </li>
+            {site.offices.map((office) => (
+              <li key={office.id} className="flex gap-3">
+                <PinIcon className="mt-1 shrink-0 text-brand-600" width={18} height={18} />
+                <address className="not-italic text-muted">
+                  <span className="font-semibold text-ink">{office.name}</span><br />
+                  {office.address.street}<br />
+                  {office.address.city}, {office.address.province}{office.address.postalCode ? ` ${office.address.postalCode}` : ""}<br />
+                  {office.address.country}
+                </address>
+              </li>
+            ))}
             <li className="flex gap-3">
               <WhatsAppIcon
                 className="mt-1 shrink-0 text-wa"

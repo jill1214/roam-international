@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import { site } from "@/data/site";
 import { ButtonLink, Container, Section } from "@/components/ui";
 import { AccreditationPanel, PageHeader, Testimonials, WhatsAppCta } from "@/components/sections";
+
+const pendingTeamNames = ["Miggie", "Raul", "Betsy", "Abbey", "Gladys", "Cathy", "Ella"];
 
 export const metadata: Metadata = {
   title: "About ROAM",
@@ -25,7 +26,7 @@ export default function AboutPage() {
             <h2 className="mb-5 text-3xl font-bold">Who we are</h2>
             <p>
               ROAM International Travel and Tours helps make travel planning easier with thoughtfully arranged tour
-              packages and reliable assistance from planning to departure. We also provide visa processing assistance,
+              packages in Bicol, across the Philippines and abroad, with reliable assistance from planning to departure. We also provide visa processing assistance,
               helping travelers understand requirements and prepare the documents they need for their journey.
             </p>
             <p>
@@ -63,15 +64,26 @@ export default function AboutPage() {
                 </div>
               ))}
             </dl>
-            <figure>
-              <div className="relative aspect-[4/3] overflow-hidden rounded-[var(--radius-card)]">
-                <Image src="/images/stories/south-korea-famtour-2026.jpg" alt="The ROAM team with fellow Philippine travel agents on the 2026 South Korea Famtour" fill sizes="(min-width:1024px) 28rem, 100vw" className="object-cover" />
-              </div>
-              <figcaption className="mt-2 text-sm text-muted">On the 2026 South Korea Familiarization Tour, September 2026.</figcaption>
-            </figure>
+            <div className="rounded-[var(--radius-card)] border border-brand-100 bg-brand-50 p-6">
+              <h2 className="text-2xl font-bold">Local roots, wider journeys</h2>
+              <p className="mt-3 text-body">ROAM remains based in Legazpi City, with an additional Antipolo office, while helping travelers explore the Philippines and destinations abroad.</p>
+            </div>
           </aside>
         </Container>
       </Section>
+
+      {process.env.NODE_ENV === "development" && (
+        <Section tone="mist" labelledBy="team-draft-heading">
+          <Container>
+            <p className="text-sm font-bold uppercase tracking-wide text-brand-700">Development placeholder — not included in production</p>
+            <h2 id="team-draft-heading" className="mt-2 text-3xl font-bold">Team roster awaiting confirmation</h2>
+            <p className="mt-3 max-w-2xl text-body">Names and original portraits must be approved before public team profiles are added. No roles or biographies have been inferred.</p>
+            <ul className="mt-6 flex flex-wrap gap-2">
+              {pendingTeamNames.map((name) => <li key={name} className="rounded-lg border border-line bg-white px-4 py-2 font-semibold text-ink">{name}</li>)}
+            </ul>
+          </Container>
+        </Section>
+      )}
 
       <section aria-labelledby="dot-heading" className="pb-16 sm:pb-24">
         <Container>
