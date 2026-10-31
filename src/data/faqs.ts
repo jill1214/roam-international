@@ -41,6 +41,6 @@ export const faqs: Faq[] = [
   },
   {
     q: "Where is the ROAM office located?",
-    a: `Our office is at ${site.address.street}, ${site.address.city}, ${site.address.province}. We're a locally owned agency serving travelers from Bicol and across the Philippines.`,
+    a: `Our primary office is at ${site.address.street}, ${site.address.city}, ${site.address.province} ${site.address.postalCode}. We also have an office at ${site.offices[1].address.street}, ${site.offices[1].address.city}. We're a locally owned agency serving travelers from Bicol and across the Philippines.`,
   },
 ];

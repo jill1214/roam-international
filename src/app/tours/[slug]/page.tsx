@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { formatUsd, getRelatedTours, getTour, tours } from "@/data/tours";
+import { formatCurrency, getRelatedTours, getTour, tours } from "@/data/tours";
 import { site } from "@/data/site";
 import { waLink, quickInquiryText } from "@/lib/whatsapp";
 import { tourJsonLd } from "@/lib/jsonld";
@@ -23,7 +23,7 @@ export async function generateMetadata({ params }: { params: Promise<Params> }):
   const tour = getTour(slug);
   if (!tour) return {};
   const title = `${tour.name} ${tour.durationShort} Tour Package`;
-  const description = `${tour.duration}. ${tour.priceLabel} ${formatUsd(tour.priceFromUsd)} ${tour.priceBasis}. ${tour.tagline} Inquire with ROAM International Travel and Tours.`;
+  const description = `${tour.duration}. ${tour.priceLabel} ${formatCurrency(tour.priceFrom, tour.currency)} ${tour.priceBasis}. ${tour.tagline} Check availability with ROAM International Travel and Tours.`;
   return {
     title,
     description,
@@ -74,7 +74,7 @@ export default async function TourPage({ params }: { params: Promise<Params> }) 
               <div className="col-span-2 bg-white p-4 sm:col-span-1">
                 <dt className="text-sm text-muted">{tour.priceLabel}</dt>
                 <dd className="mt-0.5">
-                  <span className="text-2xl font-extrabold tracking-tight text-ink">{formatUsd(tour.priceFromUsd)}</span>
+                  <span className="text-2xl font-extrabold tracking-tight text-ink">{formatCurrency(tour.priceFrom, tour.currency)}</span>
                   <span className="block text-xs text-muted">{tour.priceBasis}</span>
                 </dd>
               </div>
@@ -86,6 +86,9 @@ export default async function TourPage({ params }: { params: Promise<Params> }) 
                 <WhatsAppIcon /> WhatsApp Us
               </ExternalButton>
             </div>
+            <p className="mt-5 max-w-xl rounded-lg border border-brand-100 bg-white p-4 text-[0.9375rem] text-body">
+              <strong className="text-ink">Check for availability.</strong> Tour schedules, rates, and inclusions are subject to confirmation by ROAM.
+            </p>
           </div>
 
           <div className="order-1 lg:order-2">
@@ -129,7 +132,7 @@ export default async function TourPage({ params }: { params: Promise<Params> }) 
                       {tour.fares.map((f) => (
                         <tr key={f.label} className="border-t border-line">
                           <th scope="row" className="px-5 py-4 font-semibold text-ink">{f.label}</th>
-                          <td className="px-5 py-4 text-right text-lg font-bold text-ink">{formatUsd(f.priceUsd)}</td>
+                          <td className="px-5 py-4 text-right text-lg font-bold text-ink">{formatCurrency(f.price, tour.currency)}</td>
                         </tr>
                       ))}
                     </tbody>
@@ -143,7 +146,7 @@ export default async function TourPage({ params }: { params: Promise<Params> }) 
                 <h2 id="departures-heading" className="text-3xl font-bold">{tour.category === "Cruise" ? "Sailing dates" : "Departure dates"}</h2>
                 <p className="mt-2 text-muted">
                   {tour.departuresNote ??
-                    `Surcharges are added to the starting rate of ${formatUsd(tour.priceFromUsd)}. ${bookable.length} departures currently listed.`}
+                    `Surcharges are added to the starting rate of ${formatCurrency(tour.priceFrom, tour.currency)}. ${bookable.length} departures currently listed.`}
                 </p>
                 {tour.category === "Cruise" ? (
                   <ul className="mt-6 grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-4">
@@ -172,10 +175,10 @@ export default async function TourPage({ params }: { params: Promise<Params> }) 
                             </th>
                             <td className="px-5 py-3.5">
                               {d.soldOut ? <span className="rounded bg-mist px-2 py-0.5 text-sm font-semibold no-underline">Sold out</span>
-                                : d.surchargeUsd ? `+ ${formatUsd(d.surchargeUsd)}` : "None"}
+                                : d.surcharge ? `+ ${formatCurrency(d.surcharge, tour.currency)}` : "None"}
                             </td>
                             <td className="px-5 py-3.5 text-right font-semibold text-ink">
-                              {d.soldOut ? "—" : formatUsd(tour.priceFromUsd + (d.surchargeUsd ?? 0))}
+                              {d.soldOut ? "—" : formatCurrency(tour.priceFrom + (d.surcharge ?? 0), tour.currency)}
                             </td>
                           </tr>
                         ))}
@@ -237,7 +240,7 @@ export default async function TourPage({ params }: { params: Promise<Params> }) 
                   {tour.optionalTours.map((o) => (
                     <li key={o.label} className="flex items-center justify-between gap-4 px-5 py-3.5">
                       <span>{o.label}{o.note && <span className="block text-sm text-muted">{o.note}</span>}</span>
-                      <span className="shrink-0 font-semibold text-ink">+ {formatUsd(o.priceUsd)}</span>
+                      <span className="shrink-0 font-semibold text-ink">+ {formatCurrency(o.price, tour.currency)}</span>
                     </li>
                   ))}
                 </ul>
@@ -271,7 +274,7 @@ export default async function TourPage({ params }: { params: Promise<Params> }) 
           <aside aria-label="Tour summary" className="hidden lg:block">
             <div className="sticky top-24 rounded-[var(--radius-card)] border border-line bg-white p-6 shadow-[0_24px_48px_-32px_rgba(14,58,95,0.35)]">
               <p className="text-sm text-muted">{tour.priceLabel}</p>
-              <p className="text-3xl font-extrabold tracking-tight text-ink">{formatUsd(tour.priceFromUsd)}</p>
+              <p className="text-3xl font-extrabold tracking-tight text-ink">{formatCurrency(tour.priceFrom, tour.currency)}</p>
               <p className="text-sm text-muted">{tour.priceBasis}</p>
               <p className="mt-4 border-t border-line pt-4 text-[0.9375rem] font-semibold text-ink">{tour.duration}</p>
               <p className="text-[0.9375rem] text-muted">{tour.travelPeriod}</p>
@@ -280,7 +283,7 @@ export default async function TourPage({ params }: { params: Promise<Params> }) 
                 <ExternalButton href={waLink(quickInquiryText(tour.name))} variant="whatsapp" className="w-full"><WhatsAppIcon /> WhatsApp {site.whatsapp.name}</ExternalButton>
                 <ExternalButton href={`tel:${site.whatsapp.e164}`} variant="secondary" className="w-full"><PhoneIcon /> {site.whatsapp.display}</ExternalButton>
               </div>
-              <p className="mt-4 text-xs text-muted">Rates and availability are confirmed by ROAM when you inquire.</p>
+              <p className="mt-4 text-xs text-muted"><strong className="text-ink">Check for availability.</strong> Tour schedules, rates, and inclusions are subject to confirmation by ROAM.</p>
             </div>
           </aside>
         </Container>
@@ -301,7 +304,7 @@ export default async function TourPage({ params }: { params: Promise<Params> }) 
         <div className="mx-auto flex max-w-3xl items-center gap-3">
           <p className="mr-auto leading-tight">
             <span className="block text-xs text-muted">{tour.priceLabel}</span>
-            <span className="font-bold text-ink">{formatUsd(tour.priceFromUsd)}</span>
+            <span className="font-bold text-ink">{formatCurrency(tour.priceFrom, tour.currency)}</span>
           </p>
           <ExternalButton href={waLink(quickInquiryText(tour.name))} variant="whatsapp" size="md" aria-label={`WhatsApp about ${tour.name}`}>
             <WhatsAppIcon /> <span className="hidden min-[400px]:inline">WhatsApp</span>

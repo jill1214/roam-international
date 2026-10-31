@@ -3,10 +3,10 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import { navLinks, site } from "@/data/site";
+import { navLinks, site, tourNavGroups } from "@/data/site";
 import { waLink, quickInquiryText } from "@/lib/whatsapp";
 import { Logo } from "./Logo";
-import { CloseIcon, MenuIcon, PhoneIcon, WhatsAppIcon } from "./Icons";
+import { ChevronDownIcon, CloseIcon, MenuIcon, PhoneIcon, WhatsAppIcon } from "./Icons";
 import { buttonClass, cx } from "./ui";
 
 function isActive(pathname: string, href: string) {
@@ -23,6 +23,8 @@ export function Header() {
   const [open, setOpen] = useState(false);
   const closeRef = useRef<HTMLButtonElement>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
+  const desktopToursRef = useRef<HTMLDetailsElement>(null);
+  const mobileToursRef = useRef<HTMLDetailsElement>(null);
 
   useEffect(() => setOpen(false), [pathname]);
 
@@ -40,6 +42,36 @@ export function Header() {
     };
   }, [open]);
 
+  useEffect(() => {
+    const menus = [desktopToursRef.current, mobileToursRef.current];
+
+    const closeTourMenus = (restoreFocus = false) => {
+      const openMenu = menus.find((menu) => menu?.open);
+      if (!openMenu) return false;
+      menus.forEach((menu) => menu?.removeAttribute("open"));
+      if (restoreFocus) openMenu.querySelector<HTMLElement>("summary")?.focus();
+      return true;
+    };
+
+    const onPointerDown = (event: PointerEvent) => {
+      if (menus.some((menu) => menu?.contains(event.target as Node))) return;
+      closeTourMenus();
+    };
+
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key !== "Escape" || !closeTourMenus(true)) return;
+      event.preventDefault();
+      event.stopPropagation();
+    };
+
+    document.addEventListener("pointerdown", onPointerDown);
+    document.addEventListener("keydown", onKeyDown);
+    return () => {
+      document.removeEventListener("pointerdown", onPointerDown);
+      document.removeEventListener("keydown", onKeyDown);
+    };
+  }, []);
+
   // Clicking "Home" on the homepage is a no-op for the router, so scroll to the
   // top (the hero) ourselves and drop any stale hash left in the URL.
   const onNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
@@ -49,6 +81,11 @@ export function Header() {
     e.preventDefault();
     if (window.location.hash) window.history.replaceState(null, "", "/");
     setTimeout(scrollToTop, 0);
+  };
+
+  const onTourLinkClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    setOpen(false);
+    e.currentTarget.closest("details")?.removeAttribute("open");
   };
 
   return (
@@ -64,17 +101,39 @@ export function Header() {
             <ul className="flex items-center gap-1">
               {navLinks.map((l) => (
                 <li key={l.href}>
-                  <Link
-                    href={l.href}
-                    onClick={(e) => onNavClick(e, l.href)}
-                    aria-current={isActive(pathname, l.href) ? "page" : undefined}
-                    className={cx(
-                      "rounded-md px-3 py-2 text-[0.9375rem] font-medium transition-colors",
-                      isActive(pathname, l.href) ? "text-brand-700" : "text-ink/80 hover:text-brand-700",
-                    )}
-                  >
-                    {l.label}
-                  </Link>
+                  {l.href === "/tours" ? (
+                    <details ref={desktopToursRef} className="group relative">
+                      <summary className={cx(
+                        "flex cursor-pointer list-none items-center gap-1 rounded-md px-3 py-2 text-[0.9375rem] font-medium transition-colors [&::-webkit-details-marker]:hidden",
+                        isActive(pathname, l.href) ? "text-brand-700" : "text-ink/80 hover:text-brand-700",
+                      )}>
+                        Tours <ChevronDownIcon width={16} height={16} className="transition-transform group-open:rotate-180" />
+                      </summary>
+                      <div className="absolute left-0 top-full z-50 mt-2 w-72 rounded-xl border border-line bg-white p-3 shadow-xl">
+                        <Link href="/tours" onClick={onTourLinkClick} className="block rounded-lg px-3 py-2 font-semibold text-ink hover:bg-mist hover:text-brand-700">All tour options</Link>
+                        {tourNavGroups.map((group) => (
+                          <div key={group.label} className="mt-2 border-t border-line pt-2">
+                            <p className="px-3 py-1 text-xs font-bold uppercase tracking-wide text-muted">{group.label}</p>
+                            {group.links.map((link) => (
+                              <Link key={link.href} href={link.href} onClick={onTourLinkClick} className="block rounded-lg px-3 py-2 text-sm text-ink hover:bg-mist hover:text-brand-700">{link.label}</Link>
+                            ))}
+                          </div>
+                        ))}
+                      </div>
+                    </details>
+                  ) : (
+                    <Link
+                      href={l.href}
+                      onClick={(e) => onNavClick(e, l.href)}
+                      aria-current={isActive(pathname, l.href) ? "page" : undefined}
+                      className={cx(
+                        "rounded-md px-3 py-2 text-[0.9375rem] font-medium transition-colors",
+                        isActive(pathname, l.href) ? "text-brand-700" : "text-ink/80 hover:text-brand-700",
+                      )}
+                    >
+                      {l.label}
+                    </Link>
+                  )}
                 </li>
               ))}
             </ul>
@@ -150,17 +209,39 @@ export function Header() {
             <ul>
               {navLinks.map((l) => (
                 <li key={l.href}>
-                  <Link
-                    href={l.href}
-                    onClick={(e) => onNavClick(e, l.href)}
-                    aria-current={isActive(pathname, l.href) ? "page" : undefined}
-                    className={cx(
-                      "block rounded-lg px-3 py-3 text-lg font-semibold",
-                      isActive(pathname, l.href) ? "bg-brand-50 text-brand-700" : "text-ink hover:bg-mist",
-                    )}
-                  >
-                    {l.label}
-                  </Link>
+                  {l.href === "/tours" ? (
+                    <details ref={mobileToursRef} className="group">
+                      <summary className={cx(
+                        "flex cursor-pointer list-none items-center justify-between rounded-lg px-3 py-3 text-lg font-semibold [&::-webkit-details-marker]:hidden",
+                        isActive(pathname, l.href) ? "bg-brand-50 text-brand-700" : "text-ink hover:bg-mist",
+                      )}>
+                        Tours <ChevronDownIcon className="transition-transform group-open:rotate-180" />
+                      </summary>
+                      <div className="ml-3 border-l border-line py-2 pl-3">
+                        <Link href="/tours" onClick={onTourLinkClick} className="block rounded-lg px-3 py-2.5 font-semibold text-ink hover:bg-mist">All tour options</Link>
+                        {tourNavGroups.map((group) => (
+                          <div key={group.label} className="mt-2">
+                            <p className="px-3 py-1 text-xs font-bold uppercase tracking-wide text-muted">{group.label}</p>
+                            {group.links.map((link) => (
+                              <Link key={link.href} href={link.href} onClick={onTourLinkClick} className="block rounded-lg px-3 py-2.5 text-ink hover:bg-mist">{link.label}</Link>
+                            ))}
+                          </div>
+                        ))}
+                      </div>
+                    </details>
+                  ) : (
+                    <Link
+                      href={l.href}
+                      onClick={(e) => onNavClick(e, l.href)}
+                      aria-current={isActive(pathname, l.href) ? "page" : undefined}
+                      className={cx(
+                        "block rounded-lg px-3 py-3 text-lg font-semibold",
+                        isActive(pathname, l.href) ? "bg-brand-50 text-brand-700" : "text-ink hover:bg-mist",
+                      )}
+                    >
+                      {l.label}
+                    </Link>
+                  )}
                 </li>
               ))}
             </ul>

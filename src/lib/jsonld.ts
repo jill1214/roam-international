@@ -21,7 +21,20 @@ export function agencyJsonLd() {
       addressLocality: site.address.city,
       addressRegion: `${site.address.province}, ${site.address.region}`,
       addressCountry: site.address.countryCode,
+      postalCode: site.address.postalCode,
     },
+    location: site.offices.map((office) => ({
+      "@type": "Place",
+      name: office.name,
+      address: {
+        "@type": "PostalAddress",
+        streetAddress: office.address.street,
+        addressLocality: office.address.city,
+        addressRegion: office.address.province,
+        addressCountry: office.address.countryCode,
+        ...(office.address.postalCode ? { postalCode: office.address.postalCode } : {}),
+      },
+    })),
     hasMap: site.maps.directionsUrl,
     areaServed: "PH",
     contactPoint: site.contacts.map((c) => ({
@@ -47,11 +60,10 @@ export function tourJsonLd(tour: Tour) {
     provider: { "@id": `${site.url}/#agency` },
     offers: {
       "@type": "Offer",
-      price: tour.priceFromUsd,
-      priceCurrency: "USD",
-      availability: "https://schema.org/InStock",
+      price: tour.priceFrom,
+      priceCurrency: tour.currency,
       url: `${site.url}/tours/${tour.slug}`,
-      description: `${tour.priceLabel} ${tour.priceFromUsd} USD ${tour.priceBasis}. Subject to confirmation.`,
+      description: `${tour.priceLabel} ${tour.priceFrom} ${tour.currency} ${tour.priceBasis}. Check for availability; schedules, rates and inclusions are subject to confirmation by ROAM.`,
     },
   };
 }

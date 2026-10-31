@@ -1,43 +1,24 @@
+import type { Metadata } from "next";
 import Image from "next/image";
-import Link from "next/link";
 import { site } from "@/data/site";
 import { tours } from "@/data/tours";
 import { services } from "@/data/services";
-import { waLink, quickInquiryText } from "@/lib/whatsapp";
 import { TourCard } from "@/components/TourCard";
+import { ButtonLink, Container, Section, SectionHeading } from "@/components/ui";
+import { AccreditationPanel, LocationBlock } from "@/components/sections";
+import { CompassIcon, DocumentIcon, PeopleIcon, RouteIcon, ShieldIcon } from "@/components/Icons";
 import { BadgeCheck, Plane } from "lucide-react";
-import {
-  ButtonLink,
-  Container,
-  ExternalButton,
-  Section,
-  SectionHeading,
-} from "@/components/ui";
-import {
-  AccreditationPanel,
-  LocationBlock,
-  RingMotif,
-  Testimonials,
-  WhatsAppCta,
-} from "@/components/sections";
-import {
-  CompassIcon,
-  DocumentIcon,
-  GlobeIcon,
-  PeopleIcon,
-  RouteIcon,
-  ShieldIcon,
-  WhatsAppIcon,
-} from "@/components/Icons";
 
-const serviceIcons = {
-  "international-tours": GlobeIcon,
-  "visa-assistance": DocumentIcon,
-  "customized-tours": RouteIcon,
-  "group-travel": PeopleIcon,
-} as const;
+export const metadata: Metadata = {
+  title: "Bicol & Philippine Tours, Visa Assistance and International Travel",
+  description:
+    "Discover Bicol, explore the Philippines and travel abroad with ROAM International Travel and Tours. Get thoughtful tour planning, visa assistance and trusted guidance.",
+  alternates: { canonical: "/" },
+};
 
 export default function HomePage() {
+  const visaAssistance = services[0];
+  const internationalTours = tours.filter((tour) => tour.market === "International");
   const reasons = [
     {
       Icon: CompassIcon,
@@ -63,101 +44,105 @@ export default function HomePage() {
 
   return (
     <>
-      {/* Hero */}
-      <section
-        aria-labelledby="hero-heading"
-        className="relative overflow-hidden bg-white"
-      >
-        <div
-          className="absolute inset-x-0 bottom-0 h-28 bg-mist lg:h-40"
-          aria-hidden="true"
-        />
-        <Container className="relative grid items-center gap-12 pb-16 pt-10 sm:pt-16 lg:grid-cols-[1.05fr_1fr] lg:gap-8 lg:pb-24 lg:pt-20">
+      <section aria-labelledby="hero-heading" className="relative overflow-hidden bg-white">
+        <div className="absolute inset-x-0 bottom-0 h-28 bg-mist lg:h-40" aria-hidden="true" />
+        <Container className="relative grid items-center gap-12 pb-16 pt-10 sm:pt-16 lg:grid-cols-[1.05fr_1fr] lg:gap-10 lg:pb-24 lg:pt-20">
           <div className="max-w-xl">
-            <p className="mb-5 inline-flex max-w-full items-center justify-center gap-x-1 rounded-md bg-brand-500 px-2.5 py-1.5 text-[0.625rem] font-semibold leading-none tracking-[-0.03em] text-white whitespace-nowrap sm:px-3 sm:text-[0.875rem] sm:tracking-normal">
-              <span className="inline-flex items-center gap-1.5 whitespace-nowrap">
-                <BadgeCheck className="h-3.5 w-3.5 shrink-0 sm:h-5 sm:w-5" />
-                DOT Accredited Travel Agency
-              </span>
-
-              <span aria-hidden="true"></span>
-
-              <span className="inline-flex items-center gap-1.5 whitespace-nowrap">
-                <Plane className="h-3.5 w-3.5 shrink-0 sm:h-5 sm:w-5" />
-                Serving Travelers since {site.established.year}
-              </span>
+            <p className="mb-5 inline-flex flex-wrap items-center gap-x-3 gap-y-1 rounded-md bg-brand-500 px-3 py-1.5 text-sm font-semibold text-white">
+              <span className="inline-flex items-center gap-1.5"><BadgeCheck className="size-5" /> DOT Accredited</span>
+              <span className="inline-flex items-center gap-1.5"><Plane className="size-5" /> Serving travelers since {site.established.year}</span>
             </p>
-            <h1
-              id="hero-heading"
-              className="text-[clamp(2.75rem,7vw,4.75rem)] font-extrabold leading-[1.02] tracking-[-0.035em]"
-            >
-              Your Gateway to <span className="text-brand-500">ROAM</span> the
-              World
+            <h1 id="hero-heading" className="text-[clamp(2.75rem,7vw,4.5rem)] font-extrabold leading-[1.02] tracking-[-0.035em]">
+              Discover the Philippines. <span className="text-brand-600">Experience Bicol.</span> Roam Beyond.
             </h1>
             <p className="mt-6 text-lg text-body sm:text-xl">
-              Thoughtfully planned journeys, trusted travel assistance, and
-              personal guidance from planning to departure.
+              Explore Bicol, the Philippines, and beyond with thoughtfully planned tours, visa assistance, and trusted travel guidance from ROAM International Travel & Tours.
             </p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-              <ButtonLink href="/tours" size="lg">
-                View Tour Packages
-              </ButtonLink>
-              <ExternalButton
-                href={waLink(quickInquiryText())}
-                variant="whatsapp"
-                size="lg"
-              >
-                <WhatsAppIcon /> Inquire on WhatsApp
-              </ExternalButton>
+              <ButtonLink href="/tours#philippines" size="lg">Explore Philippine Tours</ButtonLink>
+              <ButtonLink href="/services#visa-assistance" variant="secondary" size="lg">Get Visa Assistance</ButtonLink>
             </div>
           </div>
 
-          <div className="relative mx-auto w-full max-w-[34rem]">
-            <RingMotif className="animate-ring-in-late absolute -inset-[5.5%] text-brand-400" />
-            <RingMotif className="animate-ring-in absolute -inset-[3%] text-brand-500" />
-            <div className="relative aspect-square overflow-hidden rounded-full bg-brand-50 shadow-[0_40px_80px_-40px_rgba(14,58,95,0.55)]">
+          <figure className="mx-auto w-full max-w-[38rem]">
+            <div className="overflow-hidden rounded-[var(--radius-card)] bg-brand-50 shadow-[0_40px_80px_-40px_rgba(14,58,95,0.55)]">
               <Image
-                src="/images/stories/roam-posts-image-busan3.jpg"
-                alt="A cable-stayed bridge spanning Busan's harbor, with the city and mountains behind it under a cloudy sky, in South Korea"
-                fill
+                src="/images/roam-mayon-hero.webp"
+                alt="Mayon Volcano rising above palm trees with its reflection on calm water in Albay, Philippines."
+                width={1920}
+                height={1280}
                 priority
-                sizes="(min-width: 1024px) 34rem, 90vw"
-                className="object-cover"
+                sizes="(min-width: 1024px) 38rem, 100vw"
+                className="h-auto w-full"
               />
             </div>
-            <p className="absolute -bottom-3 left-1/2 w-max max-w-[90%] -translate-x-1/2 rounded-lg border border-line bg-white px-4 py-2.5 text-sm shadow-lg sm:bottom-6 sm:left-0 sm:translate-x-0">
-              <span className="font-semibold text-ink">Busan, South Korea</span>
-              <span className="text-muted"> with ROAM, 2026</span>
-            </p>
-          </div>
+            <figcaption className="mt-2 text-sm text-muted">Mayon Volcano, Albay, Philippines.</figcaption>
+          </figure>
         </Container>
       </section>
 
-      {/* Featured tours */}
-      <Section tone="mist" labelledBy="tours-heading" className="pt-4 sm:pt-6">
-        <Container>
-          <div className="flex flex-wrap items-end justify-between gap-6">
-            <SectionHeading
-              id="tours-heading"
-              title="Where Will You ROAM Next?"
-              intro="Current international packages. Starting rates are per person and subject to confirmation."
-            />
-            <ButtonLink href="/tours" variant="secondary">
-              See all tours
-            </ButtonLink>
-          </div>
-          <div className="mt-10 grid gap-6 md:grid-cols-2">
-            {tours.map((t) => (
-              <TourCard key={t.slug} tour={t} />
-            ))}
+      <Section id="discover-bicol" tone="mist" labelledBy="bicol-heading">
+        <Container className="grid gap-8 lg:grid-cols-[1.2fr_1fr] lg:items-center">
+          <SectionHeading id="bicol-heading" title="Discover Bicol" intro="Begin in ROAM's home region, from the landscapes of Albay to experiences across Bicol. Share your dates and group so the team can prepare confirmed options around your trip." />
+          <div className="rounded-[var(--radius-card)] border border-brand-100 bg-white p-6 sm:p-8">
+            <p className="text-sm font-bold uppercase tracking-wide text-brand-700">Local knowledge, planned for you</p>
+            <p className="mt-3 text-body">Bicol package schedules, rates and inclusions are provided on inquiry. ROAM will not present a package as available until its details are confirmed.</p>
+            <ButtonLink href="/tours#bicol-tours" className="mt-6">Explore Bicol tours</ButtonLink>
           </div>
         </Container>
       </Section>
 
-      {/* Why ROAM */}
-      <Section labelledBy="why-heading">
+      <Section id="explore-philippines" labelledBy="philippines-heading">
         <Container>
-          <SectionHeading id="why-heading" title="Why Travel With ROAM" />
+          <SectionHeading id="philippines-heading" title="Explore the Philippines" intro="Planning beyond Bicol? ROAM can help shape Philippine travel around your destination, dates, group and interests." />
+          <div className="mt-10 grid gap-6 md:grid-cols-2">
+            <article className="rounded-[var(--radius-card)] border border-line p-6 sm:p-8">
+              <p className="text-sm font-bold uppercase tracking-wide text-brand-700">Bicol</p>
+              <h3 className="mt-2 text-2xl font-bold">Albay and nearby destinations</h3>
+              <p className="mt-3 text-body">Ask about a Bicol itinerary prepared for your travel dates and group.</p>
+              <ButtonLink href="/contact#inquire" variant="text" className="mt-5">Plan a Bicol trip</ButtonLink>
+            </article>
+            <article className="rounded-[var(--radius-card)] border border-line p-6 sm:p-8">
+              <p className="text-sm font-bold uppercase tracking-wide text-brand-700">Across the country</p>
+              <h3 className="mt-2 text-2xl font-bold">Other Philippine destinations</h3>
+              <p className="mt-3 text-body">Tell ROAM where you want to go and receive confirmed travel options without fictional dates or prices.</p>
+              <ButtonLink href="/tours#other-philippines" variant="text" className="mt-5">Explore Philippine travel</ButtonLink>
+            </article>
+          </div>
+        </Container>
+      </Section>
+
+      <Section tone="mist" labelledBy="visa-heading">
+        <Container className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
+          <div>
+            <span className="inline-flex size-14 items-center justify-center rounded-full bg-brand-50 text-brand-700 ring-1 ring-brand-100"><DocumentIcon width={28} height={28} /></span>
+            <SectionHeading id="visa-heading" title={visaAssistance.title} intro={visaAssistance.summary} className="mt-5" />
+            <ButtonLink href="/services#visa-assistance" className="mt-7">Get visa assistance</ButtonLink>
+          </div>
+          <div className="rounded-[var(--radius-card)] border border-line bg-white p-6 sm:p-8">
+            <ul className="space-y-3 text-body">
+              {visaAssistance.details.map((detail) => <li key={detail} className="border-l-2 border-brand-300 pl-4">{detail}</li>)}
+            </ul>
+            {visaAssistance.note && <p className="mt-6 rounded-lg border border-amber-200 bg-amber-50 p-4 text-sm text-amber-950">{visaAssistance.note}</p>}
+          </div>
+        </Container>
+      </Section>
+
+      <Section labelledBy="international-heading">
+        <Container>
+          <div className="flex flex-wrap items-end justify-between gap-6">
+            <SectionHeading id="international-heading" title="International Tours" intro="ROAM continues to arrange outbound guided tours and cruises. Published starting rates and schedules remain subject to confirmation." />
+            <ButtonLink href="/tours#international-tours" variant="secondary">See international tours</ButtonLink>
+          </div>
+          <div className="mt-10 grid gap-6 md:grid-cols-2">
+            {internationalTours.map((tour) => <TourCard key={tour.slug} tour={tour} />)}
+          </div>
+        </Container>
+      </Section>
+
+      <Section tone="mist" labelledBy="why-heading">
+        <Container>
+          <SectionHeading id="why-heading" title="Why Choose ROAM" />
           <ul className="mt-12 grid gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
             {reasons.map(({ Icon, title, body }) => (
               <li key={title} className="border-t-2 border-brand-500 pt-6">
@@ -167,167 +152,22 @@ export default function HomePage() {
               </li>
             ))}
           </ul>
+          <AccreditationPanel className="mt-14 bg-white" />
         </Container>
       </Section>
 
-      {/* Services */}
-      <Section tone="mist" labelledBy="services-heading">
+      <Section tone="brand" labelledBy="purpose-heading">
         <Container>
-          <SectionHeading
-            id="services-heading"
-            title="Travel Made Easier"
-            intro="Whether you pick a ready-made package or need something built around your group, we handle the arrangements with you."
-          />
-          <ul className="mt-12 grid gap-5 sm:grid-cols-2">
-            {services.map((s) => {
-              const Icon = serviceIcons[s.slug as keyof typeof serviceIcons];
-              return (
-                <li key={s.slug}>
-                  <Link
-                    href={`/services#${s.slug}`}
-                    className="group flex h-full gap-5 rounded-[var(--radius-card)] border border-line bg-white p-6 transition-colors hover:border-brand-300 sm:p-7"
-                  >
-                    <span className="inline-flex size-12 shrink-0 items-center justify-center rounded-full bg-brand-50 text-brand-700 ring-1 ring-brand-100">
-                      <Icon width={24} height={24} />
-                    </span>
-                    <span>
-                      <span className="block text-lg font-bold text-ink group-hover:text-brand-700">
-                        {s.title}
-                      </span>
-                      <span className="mt-1.5 block text-[0.9375rem] text-muted">
-                        {s.summary}
-                      </span>
-                      {s.note && (
-                        <span className="mt-3 block text-sm text-body">
-                          {s.note}
-                        </span>
-                      )}
-                    </span>
-                  </Link>
-                </li>
-              );
-            })}
-          </ul>
-        </Container>
-      </Section>
-
-      {/* Real travel */}
-      <Section labelledBy="real-heading">
-        <Container className="grid items-center gap-12 lg:grid-cols-[1fr_1.25fr]">
           <div>
-            <SectionHeading
-              id="real-heading"
-              title="Travel Experiences, Not Just Itineraries"
-            />
-            <p className="mt-5 text-lg text-body">
-              We recommend places we know. In September 2026, the ROAM team
-              joined the Philippine Travel Agent South Korea Familiarization
-              Tour across Gyeonggi, Ulsan and Busan, walking the same streets
-              and beaches our travelers will.
-            </p>
-            <p className="mt-4 text-body">
-              That firsthand knowledge is what we bring to every conversation,
-              from which season to go to what to pack.
-            </p>
-            <ButtonLink
-              href="/travel-inspiration"
-              variant="text"
-              className="mt-6"
-            >
-              Read travel inspiration
-            </ButtonLink>
-          </div>
-          <div className="grid grid-cols-6 gap-4">
-            <figure className="col-span-6 sm:col-span-4">
-              <div className="relative aspect-[4/3] overflow-hidden rounded-[var(--radius-card)]">
-                <Image
-                  src="/images/stories/south-korea-famtour-2026.jpg"
-                  alt="ROAM with fellow Philippine travel agents holding the 2026 South Korea Famtour banner at a Korean harbor"
-                  fill
-                  sizes="(min-width:1024px) 36rem, 100vw"
-                  className="object-cover"
-                />
-              </div>
-              <figcaption className="mt-2 text-sm text-muted">
-                South Korea Famtour, September 2026
-              </figcaption>
-            </figure>
-            <figure className="col-span-6 sm:col-span-2 sm:mt-24">
-              <div className="relative aspect-[4/3] overflow-hidden rounded-[var(--radius-card)] sm:aspect-[3/4]">
-                <Image
-                  src="/images/stories/busan-haeundae-group.png"
-                  alt="ROAM travelers on Haeundae Beach in Busan with the sea and high-rise towers behind them"
-                  fill
-                  sizes="(min-width:1024px) 18rem, 100vw"
-                  className="h-full w-full object-cover"
-                />
-              </div>
-              <figcaption className="mt-2 text-sm text-muted">
-                Busan coastline
-              </figcaption>
-            </figure>
+            <p className="text-sm font-bold uppercase tracking-wide text-aqua-300">ROAM's community initiative</p>
+            <h2 id="purpose-heading" className="mt-2 text-[clamp(1.85rem,3.6vw,2.75rem)] font-bold text-white">Roam with Purpose</h2>
+            <p className="mt-4 max-w-2xl text-lg text-brand-100">ROAM supports a school community in Matanag, Albay.</p>
           </div>
         </Container>
       </Section>
-
-      {/* About preview */}
-      <Section tone="mist" labelledBy="about-heading">
-        <Container className="grid gap-12 lg:grid-cols-[1.3fr_1fr] lg:gap-20">
-          <div>
-            <SectionHeading
-              id="about-heading"
-              title="Travel With People Who Guide You"
-            />
-            <div className="prose-roam mt-6 max-w-2xl text-lg text-body">
-              <p>
-                ROAM International Travel and Tours helps make travel planning
-                easier with thoughtfully arranged tour packages and reliable
-                assistance from planning to departure.
-              </p>
-              <p>
-                ROAM goes beyond simply booking your trip. We guide you through
-                the journey, from choosing the right travel experience and
-                preparing for your trip to visa processing assistance, so you
-                can travel with greater confidence and less stress.
-              </p>
-            </div>
-            <ButtonLink href="/about" variant="primary" className="mt-8">
-              About ROAM
-            </ButtonLink>
-          </div>
-          <dl className="grid grid-cols-2 gap-px self-start overflow-hidden rounded-[var(--radius-card)] border border-line bg-line">
-            {[
-              [
-                "Established",
-                `${site.established.month} ${site.established.year}`,
-              ],
-              ["Ownership", "Locally owned"],
-              ["Home base", "Legazpi City, Albay"],
-              ["In travel", "More than 20 years"],
-            ].map(([k, v]) => (
-              <div key={k} className="bg-white p-6">
-                <dt className="text-sm text-muted">{k}</dt>
-                <dd className="mt-1 text-lg font-bold text-ink">{v}</dd>
-              </div>
-            ))}
-          </dl>
-        </Container>
-      </Section>
-
-      <Testimonials />
-
-      <section aria-labelledby="dot-heading" className="pb-16 sm:pb-24">
-        <Container>
-          <AccreditationPanel className="bg-mist" />
-        </Container>
-      </section>
-
-      <WhatsAppCta />
 
       <Section labelledBy="visit-heading">
-        <Container>
-          <LocationBlock />
-        </Container>
+        <Container><LocationBlock /></Container>
       </Section>
     </>
   );

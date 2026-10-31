@@ -5,23 +5,23 @@ import { waLink } from "@/lib/whatsapp";
 import { site } from "@/data/site";
 import { Container, ExternalButton, Section } from "@/components/ui";
 import { PageHeader, WhatsAppCta } from "@/components/sections";
-import { CheckIcon, DocumentIcon, GlobeIcon, InfoIcon, PeopleIcon, RouteIcon, WhatsAppIcon } from "@/components/Icons";
+import { CheckIcon, DocumentIcon, GlobeIcon, InfoIcon, PeopleIcon, PinIcon, RouteIcon, WhatsAppIcon } from "@/components/Icons";
 
 export const metadata: Metadata = {
-  title: "Travel Services: Tours, Visa Assistance, Custom & Group Travel",
+  title: "Visa Assistance, Philippine & International Travel Services",
   description:
-    "International tour packages, visa assistance, customized tours and group travel from ROAM International Travel and Tours in Legazpi City, Albay.",
+    "Visa assistance, Bicol and Philippine tours, international packages, customized tours and group travel from ROAM International Travel and Tours.",
   alternates: { canonical: "/services" },
 };
 
-const icons = { "international-tours": GlobeIcon, "visa-assistance": DocumentIcon, "customized-tours": RouteIcon, "group-travel": PeopleIcon } as const;
+const icons = { "visa-assistance": DocumentIcon, "philippine-inbound-tours": PinIcon, "international-tours": GlobeIcon, "customized-tours": RouteIcon, "group-travel": PeopleIcon } as const;
 
 export default function ServicesPage() {
   return (
     <>
       <PageHeader
         title="Travel Made Easier"
-        intro="Four ways we help, explained plainly. Whichever you need, you deal with real people who guide you from the first question to departure day."
+        intro="Visa guidance and travel planning for Bicol, the Philippines and destinations abroad, with real people helping from the first question to departure day."
       >
         <nav aria-label="Services on this page" className="mt-8 flex flex-wrap gap-2">
           {services.map((s) => (
@@ -67,6 +67,9 @@ I'd like to ask about ${s.title.toLowerCase()}.`;
                     <ExternalButton href={waLink(msg)} variant="whatsapp"><WhatsAppIcon /> {s.cta}</ExternalButton>
                     {s.slug === "international-tours" && (
                       <Link href="/tours" className="inline-flex min-h-11 items-center rounded-lg border border-line px-5 font-semibold text-ink hover:border-brand-300">See current tours</Link>
+                    )}
+                    {s.slug === "philippine-inbound-tours" && (
+                      <Link href="/tours#philippines" className="inline-flex min-h-11 items-center rounded-lg border border-line px-5 font-semibold text-ink hover:border-brand-300">Explore Philippine tours</Link>
                     )}
                   </div>
                 </div>

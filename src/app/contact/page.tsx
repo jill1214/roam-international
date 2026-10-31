@@ -7,7 +7,7 @@ import { LocationBlock, PageHeader } from "@/components/sections";
 
 export const metadata: Metadata = {
   title: "Contact ROAM",
-  description: `Inquire on WhatsApp, call or visit ROAM International Travel and Tours at ${site.address.street}, ${site.address.city}, ${site.address.province}.`,
+  description: `Inquire on WhatsApp, call or visit ROAM International Travel and Tours in Legazpi City or Antipolo City. The primary office is at ${site.address.street}, ${site.address.city}, ${site.address.province} ${site.address.postalCode}.`,
   alternates: { canonical: "/contact" },
 };
 
@@ -16,7 +16,7 @@ export default function ContactPage() {
     <>
       <PageHeader
         title="Contact ROAM"
-        intro={`Send an inquiry, call, or visit our office in ${site.address.city}. The fastest way to reach us is WhatsApp at ${site.whatsapp.display}.`}
+        intro={`Send an inquiry, call, or visit our offices in Legazpi City and Antipolo City. The fastest way to reach us is WhatsApp at ${site.whatsapp.display}.`}
       />
       <Section id="inquire" className="scroll-mt-16">
         <Container className="grid gap-12 lg:grid-cols-[1.2fr_1fr] lg:gap-16">

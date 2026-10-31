@@ -29,6 +29,11 @@ export default function InspirationPage() {
                 <Image src={feature.image.src} alt={feature.image.alt} fill priority sizes="(min-width:1024px) 45rem, 100vw" className="object-cover" />
               </div>
             )}
+            {!feature.image && (
+              <div className="relative min-h-64 overflow-hidden bg-brand-50 lg:min-h-[26rem]">
+                <RingMotif className="absolute left-1/2 top-1/2 size-56 -translate-x-1/2 -translate-y-1/2 text-brand-200" />
+              </div>
+            )}
             <div className="flex flex-col justify-center p-6 sm:p-10">
               <p className="text-sm font-semibold text-brand-700">{feature.category}</p>
               <h2 className="mt-2 text-[clamp(1.75rem,3vw,2.25rem)] font-bold">{feature.title}</h2>
